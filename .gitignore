@@ -18,7 +18,10 @@ target/
 *.iws
 *.iml
 *.ipr
-applicatiom.yml
+k8s/deployment.yaml
+docker-compose.yml
+Dockerfile
+/src/main/resources/application.yml
 info.txt
 
 ### NetBeans ###
