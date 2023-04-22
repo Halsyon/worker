@@ -1,0 +1,1 @@
+ALTER TABLE worker.worker ADD COLUMN "period" VARCHAR(255);

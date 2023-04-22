@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "management.endpoint.info.app.name",
+      "type": "java.lang.String",
+      "description": "Description for management.endpoint.info.app.name."
+    },
+    {
+      "name": "management.endpoint.info.git.mode",
+      "type": "java.lang.String",
+      "description": "Description for management.endpoint.info.git.mode."
+    }
+  ] }
