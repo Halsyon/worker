@@ -1,14 +1,14 @@
 -- liquibase formatted sql
 
 -- changeset hals:2023-04-22-worker
--- comment: таблица worker к договору найма сотрудника
-CREATE SEQUENCE IF NOT EXISTS worker.hibernate_sequence AS bigint START WITH 1000 INCREMENT BY 1 MINVALUE 1 NO MAXVALUE CACHE 1;
-CREATE SEQUENCE IF NOT EXISTS worker.documents_sequence START WITH 1000 INCREMENT BY 1 MINVALUE 1 NO MAXVALUE CACHE 1;
-CREATE SEQUENCE IF NOT EXISTS worker.log_sequence AS bigint START WITH 1000 INCREMENT BY 1 MINVALUE 1 NO MAXVALUE CACHE 1;
+-- comment: С‚Р°Р±Р»РёС†Р° worker Р Р°Р±РѕС‚РЅРёРє Р·Р°РєСЂРµРїР»РµРЅРЅС‹Р№ Р·Р° РѕРїСЂРµРґРµР»РµРЅРЅС‹Рј РґРµРїР°СЂС‚Р°РјРµРЅС‚РѕРј
+CREATE SEQUENCE IF NOT EXISTS research.worker.hibernate_sequence AS bigint START WITH 1000 INCREMENT BY 1 MINVALUE 1 NO MAXVALUE CACHE 1;
+CREATE SEQUENCE IF NOT EXISTS research.worker.documents_sequence START WITH 1000 INCREMENT BY 1 MINVALUE 1 NO MAXVALUE CACHE 1;
+CREATE SEQUENCE IF NOT EXISTS research.worker.log_sequence AS bigint START WITH 1000 INCREMENT BY 1 MINVALUE 1 NO MAXVALUE CACHE 1;
 
-DROP TABLE IF EXISTS worker.worker CASCADE;
+DROP TABLE IF EXISTS  research."worker".worker CASCADE;
 
-CREATE TABLE worker.worker
+CREATE TABLE research."worker".worker
 (
     worker_id  BIGINT       NOT NULL,
     name       VARCHAR(255) NOT NULL,
@@ -17,7 +17,11 @@ CREATE TABLE worker.worker
     CONSTRAINT worker_pk PRIMARY KEY (worker_id)
 );
 
-COMMENT ON TABLE worker."worker" IS 'Таблица к договору найма сотрудника';
-COMMENT ON TABLE worker."worker" IS 'ФИО сотрудника';
-COMMENT ON TABLE worker."worker" IS 'Возраст сотрудника';
-COMMENT ON TABLE worker."worker" IS 'Подразделение к которому прикреплен сотрудник';
+-- liquibase formatted sql
+
+-- changeset hals:2023-04-22-worker_comment
+-- comment: С‚Р°Р±Р»РёС†Р° worker - РЅР°Р№РјРёРЅРі
+COMMENT ON TABLE worker."worker" IS 'Р Р°Р±РѕС‚РЅРёРє Р·Р°РєСЂРµРїР»РµРЅРЅС‹Р№ Р·Р° РѕРїСЂРµРґРµР»РµРЅРЅС‹Рј РґРµРїР°СЂС‚Р°РјРµРЅС‚РѕРј';
+COMMENT ON COLUMN worker."worker".age IS 'Р’РѕР·СЂР°СЃС‚ СЂР°Р±РѕС‚РЅРёРєР°';
+COMMENT ON COLUMN worker."worker".name IS 'РџРѕР»РЅРѕРµ Р¤РРћ СЂР°Р±РѕС‚РЅРёРєР°';
+COMMENT ON COLUMN worker."worker".department IS 'Р”РµРїР°СЂС‚Р°РјРµРЅС‚ Рє РєРѕС‚РѕСЂРѕРјСѓ РїСЂРёРєСЂРµРїР»РµРЅ СЂР°Р±РѕС‚РЅРёРє';

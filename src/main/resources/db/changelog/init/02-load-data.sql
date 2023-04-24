@@ -1,9 +1,9 @@
 -- liquibase formatted sql
 
 -- changeset hals:2023-04-22-worker_insert_info
--- comment: наполнение - таблица worker к договору найма сотрудника
+-- comment: РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕРµ РЅР°РїРѕР»РЅРµРЅРёРµ С‚Р°Р±Р» Р Р°Р±РѕС‚РЅРёРє РґР°РЅРЅС‹РјРё
 
-INSERT INTO worker."worker" (worker_id, name, age, department)
+INSERT INTO research."worker".worker (worker_id, name, age, department)
 VALUES (1, 'John Smith', 37, 'IT'),
        (2, 'Shia LaBeouf', 28, 'IT'),
        (3, 'Olli Wood', 33, 'IT');
