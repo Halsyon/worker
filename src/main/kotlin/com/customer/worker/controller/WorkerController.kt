@@ -17,22 +17,25 @@ package com.customer.worker.controller
 
 import com.customer.worker.model.Worker
 import com.customer.worker.repository.WorkerRepository
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import javax.validation.Valid
+import javax.validation.constraints.Min
 
 /**
  * @description
  * @author
  */
+@Validated
 @RestController
-@RequestMapping("/worker")
+@RequestMapping("/v1/worker")
 class WorkerController(
     val workerRepository: WorkerRepository
 ) {
 
     @GetMapping("/{id}")
-    fun getEmployee(@PathVariable id: Long): Optional<Worker> {
+    fun getEmployee(@PathVariable @Min(1) id: Long): Optional<Worker> {
         return workerRepository.findById(id)
     }
 
@@ -42,17 +45,17 @@ class WorkerController(
     }
 
     @PostMapping
-    fun saveEmployee(@RequestBody worker: Worker): Worker {
+    fun saveEmployee(@Valid @RequestBody worker: Worker): Worker {
         return workerRepository.save(worker)
     }
 
     @PutMapping
-    fun updateEmployee(@RequestBody worker: Worker) {
+    fun updateEmployee(@Valid @RequestBody worker: Worker) {
         workerRepository.save(worker)
     }
 
     @DeleteMapping("/{id}")
-    fun deleteEmployee(@PathVariable id: Long) {
+    fun deleteEmployee(@PathVariable @Min(1) id: Long) {
         workerRepository.deleteById(id)
     }
 }

@@ -18,5 +18,8 @@ package com.customer.worker.repository
 import com.customer.worker.model.Worker
 import org.springframework.data.repository.CrudRepository
 
+/**
+ *
+ */
 interface WorkerRepository : CrudRepository<Worker, Long> {
 }
