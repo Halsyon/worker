@@ -13,18 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.customer.worker.exeption
+package com.customer.domain.worker.repository
 
-import java.time.LocalDateTime
+import com.customer.domain.worker.model.Worker
+import org.springframework.data.repository.CrudRepository
 
 /**
- * @description
- * @author
+ *
  */
-class ApiError(
-    var path: String,
-    var message: String,
-    var statusCode: Int,
-    var localDateTime: LocalDateTime
-) {
+interface WorkerRepository : CrudRepository<Worker, Long> {
 }

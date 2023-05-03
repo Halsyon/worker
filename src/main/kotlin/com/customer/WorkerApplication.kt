@@ -13,13 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.customer.worker.repository
+package com.customer
 
-import com.customer.worker.model.Worker
-import org.springframework.data.repository.CrudRepository
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
 /**
+ * @description
  *
  */
-interface WorkerRepository : CrudRepository<Worker, Long> {
+@SpringBootApplication
+class WorkerApplication
+
+fun main(args: Array<String>) {
+    runApplication<WorkerApplication>(*args)
 }

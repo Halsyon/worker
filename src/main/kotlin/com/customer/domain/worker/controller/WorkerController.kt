@@ -1,5 +1,5 @@
 /*
-Copyright [2023] [Halsyon]
+Copyright (c) 2016-2023 VMware Inc. or its affiliates, All Rights Reserved. [Halsyon]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,10 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.customer.worker.controller
+package com.customer.domain.worker.controller
 
-import com.customer.worker.model.Worker
-import com.customer.worker.repository.WorkerRepository
+import com.customer.domain.worker.model.Worker
+import com.customer.domain.worker.repository.WorkerRepository
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.util.*

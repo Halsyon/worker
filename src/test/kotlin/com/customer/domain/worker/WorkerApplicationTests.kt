@@ -1,4 +1,4 @@
-package com.customer.worker
+package com.customer.domain.worker
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

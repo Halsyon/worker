@@ -13,18 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.customer.worker
+package com.customer.exeption
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
+import java.time.LocalDateTime
 
 /**
  * @description
- *
+ * @author
  */
-@SpringBootApplication
-class WorkerApplication
-
-fun main(args: Array<String>) {
-    runApplication<WorkerApplication>(*args)
+class ApiError(
+    var path: String,
+    var message: String,
+    var statusCode: Int,
+    var localDateTime: LocalDateTime
+) {
 }

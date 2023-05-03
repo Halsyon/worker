@@ -13,16 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.customer.worker.model
+package com.customer.domain.worker.model
 
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
-import javax.validation.constraints.Size
 
 /**
- * @description -main model
- * @author Halsyon
+ *  @brief -main model
+ * @author
  */
 @Entity(name = "worker")
 data class Worker(
