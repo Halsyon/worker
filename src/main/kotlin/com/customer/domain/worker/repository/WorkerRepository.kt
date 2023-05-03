@@ -16,10 +16,10 @@ limitations under the License.
 package com.customer.domain.worker.repository
 
 import com.customer.domain.worker.model.Worker
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.JpaRepository
 
 /**
  *
  */
-interface WorkerRepository : CrudRepository<Worker, Long> {
+interface WorkerRepository : JpaRepository<Worker, Long> {
 }
