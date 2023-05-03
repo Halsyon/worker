@@ -51,7 +51,7 @@ class WorkerController(
     fun update(@Valid @RequestBody worker: Worker): Worker = workerService.update(worker)
 
     @DeleteMapping("/{id}")
-    fun deleteEmployee(@PathVariable @Min(1) id: Long) {
+    fun delete(@PathVariable @Min(1) id: Long) {
         workerService.delete(id)
     }
 }
