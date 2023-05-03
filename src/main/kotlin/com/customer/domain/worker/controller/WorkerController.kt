@@ -16,10 +16,10 @@ limitations under the License.
 package com.customer.domain.worker.controller
 
 import com.customer.domain.worker.model.Worker
-import com.customer.domain.worker.repository.WorkerRepository
+import com.customer.domain.worker.service.WorkerService
+import org.springframework.data.domain.Pageable
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import java.util.*
 import javax.validation.Valid
 import javax.validation.constraints.Min
 
@@ -31,31 +31,27 @@ import javax.validation.constraints.Min
 @RestController
 @RequestMapping("/v1/worker")
 class WorkerController(
-    val workerRepository: WorkerRepository
+    val workerService: WorkerService
 ) {
 
-    @GetMapping("/{id}")
-    fun getEmployee(@PathVariable @Min(1) id: Long): Optional<Worker> {
-        return workerRepository.findById(id)
+    @GetMapping
+    fun getAll(pageable: Pageable): Iterable<Worker> {
+        return workerService.findAll(pageable)
     }
 
-    @GetMapping
-    fun getAllEmployees(): Iterable<Worker> {
-        return workerRepository.findAll()
+    @GetMapping("/{id}")
+    fun get(@PathVariable @Min(1) id: Long): Worker {
+        return workerService.findById(id)
     }
 
     @PostMapping
-    fun saveEmployee(@Valid @RequestBody worker: Worker): Worker {
-        return workerRepository.save(worker)
-    }
+    fun save(@Valid @RequestBody worker: Worker): Worker = workerService.save(worker)
 
     @PutMapping
-    fun updateEmployee(@Valid @RequestBody worker: Worker) {
-        workerRepository.save(worker)
-    }
+    fun update(@Valid @RequestBody worker: Worker): Worker = workerService.update(worker)
 
     @DeleteMapping("/{id}")
     fun deleteEmployee(@PathVariable @Min(1) id: Long) {
-        workerRepository.deleteById(id)
+        workerService.delete(id)
     }
 }
