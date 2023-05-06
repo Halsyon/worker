@@ -47,7 +47,8 @@ class WorkerService(
         workerId
             .let {
                 //checkAccess()
-                workerRepository.findById(it).orElseThrow { RuntimeException("Worker with given id not found !") }
+                workerRepository.findById(it)
+                    .orElseThrow { RuntimeException("Worker with given id not found !") }
             }
 
 
@@ -56,8 +57,7 @@ class WorkerService(
             .let {
                 //checkAccess()
                 workerRepository.save(worker)
-            }
-            .also { logger.info("Update Entity with id ${worker.name}") }
+            }.also { logger.info("Update Entity with id ${worker.name}") }
 
 
     fun delete(employeeId: Long) {

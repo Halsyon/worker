@@ -20,7 +20,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 /**
- *  @brief -main model
+ *  @brief - main model
  * @author
  */
 @Entity(name = "worker")
