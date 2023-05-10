@@ -15,20 +15,21 @@ limitations under the License.
  */
 package com.customer.domain.worker.service
 
-import com.customer.domain.worker.model.Worker
+import com.customer.domain.worker.model.entity.Worker
+import com.customer.domain.worker.model.view.WorkerView
 import com.customer.domain.worker.repository.WorkerRepository
+import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
 
 @Service
 @Transactional
 class WorkerService(
-    val workerRepository: WorkerRepository
+    val workerRepository: WorkerRepository,
+    val modelMapper: ModelMapper
 ) {
     private val logger = LoggerFactory.getLogger(WorkerService::class.java)
 
@@ -36,28 +37,38 @@ class WorkerService(
         return workerRepository.findAll(page)
     }
 
-    fun save(
-        worker: Worker
-    ): Worker = worker.let {
-        //checkAccess()
-        workerRepository.save(worker)
-    }
+    fun save(workerCreate: WorkerView): WorkerView =
+        workerCreate
+            .let {
+                //checkAccess()
+                val result = workerRepository.save(modelMapper.map(workerCreate, Worker::class.java))
+                modelMapper.map(result, WorkerView::class.java)
+            }
 
-    fun findById(workerId: Long): Worker =
+    fun findById(workerId: Long): WorkerView =
         workerId
             .let {
                 //checkAccess()
-                workerRepository.findById(it)
+                val result = workerRepository.findById(it)
                     .orElseThrow { RuntimeException("Worker with given id not found !") }
+                modelMapper.map(result, WorkerView::class.java)
             }
 
 
-    fun update(worker: Worker): Worker =
-        worker
+    fun update(
+        workerId: Long,
+        workerUpdated: WorkerView
+    ): WorkerView =
+        workerUpdated
             .let {
                 //checkAccess()
-                workerRepository.save(worker)
-            }.also { logger.info("Update Entity with id ${worker.name}") }
+                val worker = workerRepository.findById(workerId)
+                    .orElseThrow { RuntimeException("Worker with given id not found !") }
+                worker.name = workerUpdated.name
+                worker.age = workerUpdated.age
+                worker.department = workerUpdated.department
+                modelMapper.map(workerRepository.save(worker), WorkerView::class.java)
+            }.also { logger.info("Update Entity with id ${workerUpdated.name}") }
 
 
     fun delete(employeeId: Long) {
@@ -73,7 +84,7 @@ class WorkerService(
 
     private fun checkAccess(token: String): Boolean {
         var result: Boolean = false;
-        //todo
+        //some code
         return result;
     }
 }

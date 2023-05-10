@@ -15,9 +15,12 @@ limitations under the License.
  */
 package com.customer.domain.worker.controller
 
-import com.customer.domain.worker.model.Worker
+import com.customer.domain.worker.model.entity.Worker
+import com.customer.domain.worker.model.view.WorkerView
 import com.customer.domain.worker.service.WorkerService
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -35,23 +38,28 @@ class WorkerController(
 ) {
 
     @GetMapping
-    fun getAll(pageable: Pageable): Iterable<Worker> {
+    fun getAll(pageable: Pageable): Page<Worker> {
         return workerService.findAll(pageable)
     }
 
-    @GetMapping("/{id}")
-    fun get(@PathVariable @Min(1) id: Long): Worker {
-        return workerService.findById(id)
+    @GetMapping("/{workerId}")
+    fun get(@PathVariable @Min(1) workerId: Long): WorkerView {
+        return workerService.findById(workerId)
     }
 
     @PostMapping
-    fun save(@Valid @RequestBody worker: Worker): Worker = workerService.save(worker)
+    @ResponseStatus(HttpStatus.CREATED)
+    fun save(@Valid @RequestBody worker: WorkerView): WorkerView =
+        workerService.save(worker)
 
-    @PutMapping
-    fun update(@Valid @RequestBody worker: Worker): Worker = workerService.update(worker)
+    @PutMapping("{workerId}")
+    fun update(
+        @PathVariable workerId: Long,
+        @Valid @RequestBody worker: WorkerView
+    ): WorkerView = workerService.update(workerId, worker)
 
-    @DeleteMapping("/{id}")
-    fun delete(@PathVariable @Min(1) id: Long) {
-        workerService.delete(id)
+    @DeleteMapping("/{workerId}")
+    fun delete(@PathVariable @Min(1) workerId: Long) {
+        workerService.delete(workerId)
     }
 }
