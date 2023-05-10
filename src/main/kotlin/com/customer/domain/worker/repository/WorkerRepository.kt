@@ -1,5 +1,5 @@
 /*
-Copyright [2023] [Halsyon]
+Copyright [2023] Halsyon
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ limitations under the License.
  */
 package com.customer.domain.worker.repository
 
-import com.customer.domain.worker.model.Worker
+import com.customer.domain.worker.model.entity.Worker
 import org.springframework.data.jpa.repository.JpaRepository
 
 /**

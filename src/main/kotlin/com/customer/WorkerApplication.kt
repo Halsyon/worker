@@ -1,5 +1,5 @@
 /*
-Copyright [2023] [Halsyon]
+Copyright (c) 2016-2023 VMware Inc. or its affiliates, All Rights Reserved. Halsyon
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,15 +15,23 @@ limitations under the License.
  */
 package com.customer
 
+import org.modelmapper.ModelMapper
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Bean
 
 /**
  * @description
  *
  */
 @SpringBootApplication
-class WorkerApplication
+class WorkerApplication{
+
+    @Bean
+    fun mapper(): ModelMapper {
+        return ModelMapper()
+    }
+}
 
 fun main(args: Array<String>) {
     runApplication<WorkerApplication>(*args)
