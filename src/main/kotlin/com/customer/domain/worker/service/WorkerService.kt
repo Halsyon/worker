@@ -34,6 +34,7 @@ class WorkerService(
     private val logger = LoggerFactory.getLogger(WorkerService::class.java)
 
     fun findAll(page: Pageable): Page<Worker> {
+        //checkAccess()
         return workerRepository.findAll(page)
     }
 

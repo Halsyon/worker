@@ -38,14 +38,12 @@ class WorkerController(
 ) {
 
     @GetMapping
-    fun getAll(pageable: Pageable): Page<Worker> {
-        return workerService.findAll(pageable)
-    }
+    fun getAll(pageable: Pageable): Page<Worker> =
+        workerService.findAll(pageable)
 
     @GetMapping("/{workerId}")
-    fun get(@PathVariable @Min(1) workerId: Long): WorkerView {
-        return workerService.findById(workerId)
-    }
+    fun get(@PathVariable @Min(1) workerId: Long): WorkerView =
+        workerService.findById(workerId)
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -59,7 +57,8 @@ class WorkerController(
     ): WorkerView = workerService.update(workerId, worker)
 
     @DeleteMapping("/{workerId}")
-    fun delete(@PathVariable @Min(1) workerId: Long) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(@PathVariable @Min(1) workerId: Long) =
         workerService.delete(workerId)
-    }
+
 }
