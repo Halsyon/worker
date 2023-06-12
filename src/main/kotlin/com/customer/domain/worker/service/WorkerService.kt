@@ -55,7 +55,6 @@ class WorkerService(
                 modelMapper.map(result, WorkerView::class.java)
             }
 
-
     fun update(
         workerId: Long,
         workerUpdated: WorkerView
