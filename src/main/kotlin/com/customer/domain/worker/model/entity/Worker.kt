@@ -1,5 +1,5 @@
 /*
-Copyright [2023] [Halsyon]
+Copyright 2023 Halsyon
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,10 +20,13 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 /**
- *  @brief - main model
+ * @description - main model
  * @author
  */
 @Entity(name = "worker")
+@Table(indexes = [
+    Index(name = "idx_worker_name", columnList = "name")
+])
 data class Worker(
 
     @Id
