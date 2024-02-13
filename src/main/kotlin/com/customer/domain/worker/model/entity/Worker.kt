@@ -15,34 +15,41 @@ limitations under the License.
  */
 package com.customer.domain.worker.model.entity
 
+import com.customer.domain.department.model.Department
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 /**
- * @description - main model
+ * main model
  * @author
  */
 @Entity(name = "worker")
-@Table(indexes = [
-    Index(name = "idx_worker_name", columnList = "name")
-])
+@Table(
+    indexes = [
+        Index(name = "idx_worker_name", columnList = "name")
+    ]
+)
 data class Worker(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "worker_id", nullable = false)
-    var id: Long? = null,
+    private var id: Long? = null,
 
     @field:NotBlank(message = "Department is mandatory")
     @Column(name = "name", nullable = false)
-    var name: String? = null,
+    private var name: String? = null,
 
     @field:NotNull(message = "age is mandatory")
     @Column(name = "age", nullable = false)
-    var age: Long? = null,
+    private var age: Long? = null,
 
-    @field:NotBlank(message = "Department is mandatory")
-    @Column(name = "department", nullable = false)
-    var department: String? = null
-)
+//    @field:NotBlank(message = "Department is mandatory")
+//    @Column(name = "department", nullable = false)
+//    var department: String? = null,
+
+    @ManyToOne()
+    @JoinColumn(name = "department_id")
+    private var department: Department
+) {}
