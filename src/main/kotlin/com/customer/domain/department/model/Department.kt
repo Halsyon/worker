@@ -1,6 +1,5 @@
 package com.customer.domain.department.model
 
-import org.hibernate.proxy.HibernateProxy
 import javax.persistence.*
 
 @Entity
@@ -36,25 +35,30 @@ data class Department(
         shortName = newShortName
     }
 
-
-    final override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null) return false
-        val oEffectiveClass =
-            if (other is HibernateProxy) other.hibernateLazyInitializer.persistentClass else other.javaClass
-        val thisEffectiveClass =
-            if (this is HibernateProxy) this.hibernateLazyInitializer.persistentClass else this.javaClass
-        if (thisEffectiveClass != oEffectiveClass) return false
-        other as Department
-
-        return id != null && id == other.id
-    }
-
-    final override fun hashCode(): Int =
-        if (this is HibernateProxy) this.hibernateLazyInitializer.persistentClass.hashCode() else javaClass.hashCode()
-
     @Override
     override fun toString(): String {
         return this::class.simpleName + "(  id = $id   ,   shortName = $shortName   ,   ceo = $ceo   ,   address = $address )"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Department
+
+        if (id != other.id) return false
+        if (shortName != other.shortName) return false
+        if (ceo != other.ceo) return false
+        if (address != other.address) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + (shortName?.hashCode() ?: 0)
+        result = 31 * result + (ceo?.hashCode() ?: 0)
+        result = 31 * result + (address?.hashCode() ?: 0)
+        return result
     }
 }
