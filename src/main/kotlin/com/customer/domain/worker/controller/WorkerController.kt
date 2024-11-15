@@ -15,16 +15,12 @@ limitations under the License.
  */
 package com.customer.domain.worker.controller
 
-import com.customer.domain.worker.model.entity.Worker
-import com.customer.domain.worker.model.view.WorkerView
+import com.customer.domain.worker.model.view.WorkerResponse
 import com.customer.domain.worker.service.WorkerService
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
-import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.*
-import javax.validation.Valid
-import javax.validation.constraints.Min
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * @description
@@ -32,33 +28,46 @@ import javax.validation.constraints.Min
  */
 @Validated
 @RestController
-@RequestMapping("/v1/worker")
-class WorkerController(
-    val workerService: WorkerService
-) {
+@RequestMapping("api/v1/worker")
+class WorkerController(private val workerService: WorkerService) : WorkerApi {
 
-    @GetMapping
-    fun getAll(pageable: Pageable): Page<Worker> =
-        workerService.findAll(pageable)
-
-    @GetMapping("/{workerId}")
-    fun get(@PathVariable @Min(1) workerId: Long): WorkerView =
+    override fun getWorkerById(workerId: Long): WorkerResponse =
         workerService.findById(workerId)
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    fun save(@Valid @RequestBody worker: WorkerView): WorkerView =
+    override fun creteWorker(worker: WorkerResponse): WorkerResponse =
         workerService.save(worker)
 
-    @PutMapping("{workerId}")
-    fun update(
-        @PathVariable workerId: Long,
-        @Valid @RequestBody worker: WorkerView
-    ): WorkerView = workerService.update(workerId, worker)
+    override fun updateWorker(var1: String?, var2: WorkerResponse?): WorkerResponse? {
+        TODO("Not yet implemented")
+    }
 
-    @DeleteMapping("/{workerId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable @Min(1) workerId: Long) =
-        workerService.delete(workerId)
+    fun listApplications(var1: WorkerResponse?): Page<WorkerResponse> {
+        TODO("Not yet implemented")
+    }
+
+//
+//    @GetMapping
+//    fun getAll(pageable: Pageable): Page<Worker> =
+//        workerService.findAll(pageable)
+//
+//    @GetMapping("/{workerId}")
+//    fun get(@PathVariable @Min(1) workerId: Long): WorkerResponse =
+//        workerService.findById(workerId)
+//
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    fun save(@Valid @RequestBody worker: WorkerResponse): WorkerResponse =
+//        workerService.save(worker)
+//
+//    @PutMapping("{workerId}")
+//    fun update(
+//        @PathVariable workerId: Long,
+//        @Valid @RequestBody worker: WorkerResponse
+//    ): WorkerResponse = workerService.update(workerId, worker)
+//
+//    @DeleteMapping("/{workerId}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    fun delete(@PathVariable @Min(1) workerId: Long) =
+//        workerService.delete(workerId)
 
 }

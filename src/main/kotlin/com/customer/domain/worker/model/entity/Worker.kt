@@ -35,15 +35,15 @@ data class Worker(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "worker_id", nullable = false)
-    private var id: Long? = null,
+     var id: Long? = null,
 
     @field:NotBlank(message = "Department is mandatory")
     @Column(name = "name", nullable = false)
-    private var name: String? = null,
+     var name: String? = null,
 
     @field:NotNull(message = "age is mandatory")
     @Column(name = "age", nullable = false)
-    private var age: Long? = null,
+     var age: Long? = null,
 
 //    @field:NotBlank(message = "Department is mandatory")
 //    @Column(name = "department", nullable = false)
@@ -51,5 +51,5 @@ data class Worker(
 
     @ManyToOne()
     @JoinColumn(name = "department_id")
-    private var department: Department
+     var department: Department
 ) {}

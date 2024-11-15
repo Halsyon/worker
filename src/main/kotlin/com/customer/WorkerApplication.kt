@@ -27,10 +27,6 @@ import org.springframework.context.annotation.Bean
 @SpringBootApplication
 class WorkerApplication{
 
-    @Bean
-    fun mapper(): ModelMapper {
-        return ModelMapper()
-    }
 }
 
 fun main(args: Array<String>) {

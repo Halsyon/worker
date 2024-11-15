@@ -15,3 +15,6 @@ Used technologies
 - Maven - Build Tool  
 - Postman - Test REST API
 - Travis C.I.
+- GitHub Actions
+- Docker
+- Kubernetes

@@ -21,14 +21,17 @@ import javax.validation.constraints.NotNull
 /**
  * @description - dto model worker
  */
-class WorkerView(
+class WorkerResponse(
 
     var id: Long? = null,
-    @field:NotNull(message = "age is mandatory")
+    @field:NotNull(message = "name is mandatory")
     var name: String? = null,
     @field:NotNull(message = "age is mandatory")
     var age: Long? = null,
     @field:NotBlank(message = "Department is mandatory")
-    var department: String? = null
+    var department: String
 ) {
+    fun copy(id: Int): WorkerResponse? {
+        TODO("Not yet implemented")
+    }
 }

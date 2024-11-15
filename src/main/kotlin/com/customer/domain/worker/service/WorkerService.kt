@@ -16,7 +16,7 @@ limitations under the License.
 package com.customer.domain.worker.service
 
 import com.customer.domain.worker.model.entity.Worker
-import com.customer.domain.worker.model.view.WorkerView
+import com.customer.domain.worker.model.view.WorkerResponse
 import com.customer.domain.worker.repository.WorkerRepository
 import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
@@ -35,30 +35,31 @@ class WorkerService(
 
     fun findAll(page: Pageable): Page<Worker> {
         //checkAccess()
-        return workerRepository.findAll(page)
+     var result: Page<Worker> =  workerRepository.findAll(page)
+        return result
     }
 
-    fun save(workerCreate: WorkerView): WorkerView =
+    fun save(workerCreate: WorkerResponse): WorkerResponse =
         workerCreate
             .let {
                 //checkAccess()
                 val result = workerRepository.save(modelMapper.map(workerCreate, Worker::class.java))
-                modelMapper.map(result, WorkerView::class.java)
+                modelMapper.map(result, WorkerResponse::class.java)
             }
 
-    fun findById(workerId: Long): WorkerView =
+    fun findById(workerId: Long): WorkerResponse =
         workerId
             .let {
                 //checkAccess()
                 val result = workerRepository.findById(it)
                     .orElseThrow { RuntimeException("Worker with given id not found !") }
-                modelMapper.map(result, WorkerView::class.java)
+                modelMapper.map(result, WorkerResponse::class.java)
             }
 
     fun update(
         workerId: Long,
-        workerUpdated: WorkerView
-    ): WorkerView =
+        workerUpdated: WorkerResponse
+    ): WorkerResponse =
         workerUpdated
             .let {
                 //checkAccess()
@@ -66,8 +67,8 @@ class WorkerService(
                     .orElseThrow { RuntimeException("Worker with given id not found !") }
                 worker.name = workerUpdated.name
                 worker.age = workerUpdated.age
-                worker.department = workerUpdated.department
-                modelMapper.map(workerRepository.save(worker), WorkerView::class.java)
+                //worker.department = Department( workerUpdated.department
+                modelMapper.map(workerRepository.save(worker), WorkerResponse::class.java)
             }.also { logger.info("Update Entity with id ${workerUpdated.name}") }
 
 
