@@ -53,7 +53,16 @@ data class Worker(
     var address: String? = null,
 
     @Column(name = "salary", nullable = false)
-    var salary: Double? = null
+    var salary: Double? = null,
+
+    @Column(name = "created_at", nullable = false)
+    var createdAt: Long? = null,
+
+    @Column(name = "updated_at", nullable = false)
+    var updatedAt: Long? = null,
+
+    @Column(name = "period_at", nullable = false)
+    var periodAt: String? = null
 ) {
 
     @Override

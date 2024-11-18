@@ -24,7 +24,9 @@ docker/docker-compose.yml
 docker/Dockerfile
 /src/main/resources/application.yml
 /src/main/resources/changelog/*
+/src/main/resources/db/*
 info.txt
+db/*
 
 ### NetBeans ###
 /nbproject/private/
