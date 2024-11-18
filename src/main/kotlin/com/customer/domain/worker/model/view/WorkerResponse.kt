@@ -15,21 +15,27 @@ limitations under the License.
  */
 package com.customer.domain.worker.model.view
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 /**
  * @description - dto model worker
  */
+@Tag(name = "WorkerResponse")
 class WorkerResponse(
 
     var id: Long? = null,
     @field:NotNull(message = "name is mandatory")
     var name: String? = null,
     @field:NotNull(message = "age is mandatory")
-    var age: Long? = null,
+    var age: Int? = null,
     @field:NotBlank(message = "Department is mandatory")
-    var department: String
+    var department: String,
+    @field:NotNull(message = "salary is mandatory")
+    var salary: Double? = null,
+    @field:NotBlank(message = "Address is mandatory")
+    var address: String? = null
 ) {
     fun copy(id: Int): WorkerResponse? {
         TODO("Not yet implemented")

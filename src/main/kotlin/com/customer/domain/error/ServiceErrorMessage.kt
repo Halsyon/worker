@@ -2,6 +2,9 @@ package com.customer.domain.error
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+/**
+ *
+ */
 class ServiceErrorMessage(
     @JsonProperty("code")
     private var code: String? = null,

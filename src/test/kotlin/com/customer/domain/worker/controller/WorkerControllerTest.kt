@@ -1,17 +1,17 @@
 package com.customer.domain.worker.controller
 
 import com.customer.domain.department.model.Department
+import com.customer.domain.department.model.DepartmentRequest
 import com.customer.domain.worker.model.entity.Worker
+import com.customer.domain.worker.model.view.WorkerRequest
 import com.customer.domain.worker.model.view.WorkerResponse
-import com.customer.domain.worker.service.WorkerService
+import com.customer.domain.worker.service.impl.WorkerServiceImpl
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.*
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ResponseStatusException
 
@@ -19,16 +19,20 @@ import org.springframework.web.server.ResponseStatusException
 //internal class WorkerControllerTest {
 class WorkerControllerTest {
 
-    private val workerService: WorkerService = mock(WorkerService::class.java)
-    private val workerController = WorkerController(workerService)
+    private val workerServiceImpl: WorkerServiceImpl = mock(WorkerServiceImpl::class.java)
+    private val workerController = WorkerController(workerServiceImpl)
 
 
     @Test
     fun `getAll should return all workers`() {
-        val pageable: Pageable = mock(Pageable::class.java)
+      //  val pageable: Pageable = mock(Pageable::class.java)
+        val page = 1
+        val size = 10
+        val sort = "name"
+        val pageable: Pageable = PageRequest.of(page, size, Sort.Direction.fromString(sort))
         val workers = listOf(WorkerView(id = 1, name = "John Doe"))
         val workers1 = listOf(
-            Worker(
+            WorkerResponse(
                 id = 1,
                 name = "John Doe",
                 age = 27,
@@ -37,14 +41,16 @@ class WorkerControllerTest {
                     shortName = "Umbrella Corp",
                     ceo = "Alice Marcus",
                     address = "Raccoon city, USA"
-                )
+                ).toString(),
+                address = "Raccoon city, USA",
+                salary = 1000.0
             )
         )
-        val page: Page<Worker> = PageImpl(workers1)
+        val pageRslt: Page<WorkerResponse> = PageImpl(workers1)
 
-        `when`(workerService.findAll(pageable)).thenReturn(page)
+        `when`(workerServiceImpl.findAll(page, size, sort)).thenReturn(pageRslt)
 
-        val result = workerController.getAll(pageable)
+        val result = workerController.getWorkersPage(page, size, sort)
 
         assertEquals(result.content.size, 1)
         assertEquals(result.content[0].name, "John Doe")
@@ -54,14 +60,50 @@ class WorkerControllerTest {
         return WorkerView(id = id, name = name)
     }
 
+    private fun getWorkerRequest(): WorkerRequest {
+       val worker =
+            WorkerRequest(
+                id = 1,
+                name = "John Doe",
+                age = 27,
+                department = DepartmentRequest(
+                    id = 1,
+                    shortName = "Umbrella Corp",
+                    ceo = "Alice Marcus",
+                    address = "Raccoon city, USA"
+                ),
+                address = "Raccoon city, USA",
+                salary = 1000.0
+            )
+        return worker
+    }
+
+    private fun getWorkerResponse(): WorkerResponse {
+        val worker =
+            WorkerResponse(
+                id = 1,
+                name = "John Doe",
+                age = 27,
+                department = Department(
+                    id = 1,
+                    shortName = "Umbrella Corp",
+                    ceo = "Alice Marcus",
+                    address = "Raccoon city, USA"
+                ).toString(),
+                address = "Raccoon city, USA",
+                salary = 1000.0
+            )
+        return worker
+    }
+
     @Test
     fun `getAll should return empty page when no workers found`() {
         val pageable: Pageable = mock(Pageable::class.java)
-        val page: Page<Worker> = PageImpl(emptyList())
+        val page: Page<WorkerResponse> = PageImpl(emptyList())
 
-        `when`(workerService.findAll(pageable)).thenReturn(page)
+        `when`(workerServiceImpl.findAll(1, 10, "name")).thenReturn(page)
 
-        val result = workerController.getAll(pageable)
+        val result = workerController.getWorkersPage(1, 10, "name")
 
         assertTrue(result.content.isEmpty())
     }
@@ -71,9 +113,9 @@ class WorkerControllerTest {
         val workerId = 1L
         val worker = WorkerView(id = workerId, name = "John Doe")
 
-        `when`(workerService.findById(workerId)).thenReturn(worker)
+        `when`(workerServiceImpl.findById(workerId)).thenReturn(worker)
 
-        val result = workerController.get(workerId)
+        val result = workerController.getWorkerById(workerId)
 
         assertEquals(result.name, "John Doe")
     }
@@ -82,18 +124,43 @@ class WorkerControllerTest {
     fun `get should throw exception when worker not found`() {
         val workerId = 999L
 
-        `when`(workerService.findById(workerId)).thenThrow(ResponseStatusException(HttpStatus.NOT_FOUND))
+        `when`(workerServiceImpl.findById(workerId)).thenThrow(ResponseStatusException(HttpStatus.NOT_FOUND))
 
-        assertThrows<ResponseStatusException> { workerController.get(workerId) }
+        assertThrows<ResponseStatusException> { workerController.getWorkerById(workerId) }
     }
 
     @Test
     fun `save should create a new worker`() {
-        val worker = WorkerView(id = null, name = "John Doe")
+        val worker =
+            WorkerRequest(
+                id = 1,
+                name = "John Doe",
+                age = 27,
+                department = DepartmentRequest(
+                    id = 1,
+                    shortName = "Umbrella Corp",
+                    ceo = "Alice Marcus",
+                    address = "Raccoon city, USA"
+                ),
+                address = "Raccoon city, USA",
+                salary = 1000.0
+            )
+        val workerResponse = WorkerResponse(
+            id = 1,
+            name = "John Doe",
+            age = 27,
+            department = Department(
+                id = 1,
+                shortName = "Umbrella Corp",
+                ceo = "Alice Marcus",
+                address = "Raccoon city, USA"
+            ).toString(),
+            address = "Raccoon city, USA",
+            salary = 1000.0
+        )
+        `when`(workerServiceImpl.save(worker)).thenReturn(workerResponse)
 
-        `when`(workerService.save(worker)).thenReturn(worker.copy(id = 1))
-
-        val result = workerController.save(worker)
+        val result = workerController.creteWorker(worker)
 
         assertNotNull(result.id)
         assertEquals(result.name, "John Doe")
@@ -102,41 +169,42 @@ class WorkerControllerTest {
     @Test
     fun `update should modify an existing worker`() {
         val workerId = 1L
-        val worker = WorkerView(id = workerId, name = "Jane Doe")
+        val worker = getWorkerRequest()
+        val workerResponse = getWorkerResponse()
 
-        `when`(workerService.update(workerId, worker)).thenReturn(worker)
+        `when`(workerServiceImpl.update(workerId, worker)).thenReturn(workerResponse)
 
-        val result = workerController.update(workerId, worker)
+        val result = workerController.updateWorker(workerId, worker)
 
-        assertEquals(result.name, "Jane Doe")
+        assertEquals(result?.name, "John Doe")
     }
 
     @Test
     fun `update should throw exception when worker not found`() {
         val workerId = 999L
-        val worker = WorkerView(id = workerId, name = "Jane Doe")
+        val worker = getWorkerRequest()
 
-        `when`(workerService.update(workerId, worker)).thenThrow(ResponseStatusException(HttpStatus.NOT_FOUND))
+        `when`(workerServiceImpl.update(workerId, worker)).thenThrow(ResponseStatusException(HttpStatus.NOT_FOUND))
 
-        assertThrows<ResponseStatusException> { workerController.update(workerId, worker) }
+        assertThrows<ResponseStatusException> { workerController.updateWorker(workerId, worker) }
     }
 
     @Test
     fun `delete should remove a worker when valid ID is provided`() {
         val workerId = 1L
 
-        doNothing().`when`(workerService).delete(workerId)
+        doNothing().`when`(workerServiceImpl).delete(workerId)
 
-        assertDoesNotThrow { workerController.delete(workerId) }
-        verify(workerService, times(1)).delete(workerId)
+        assertDoesNotThrow { workerController.deleteWorker(workerId) }
+        verify(workerServiceImpl, times(1)).delete(workerId)
     }
 
     @Test
     fun `delete should throw exception when worker not found`() {
         val workerId = 999L
 
-        doThrow(ResponseStatusException(HttpStatus.NOT_FOUND)).`when`(workerService).delete(workerId)
+        doThrow(ResponseStatusException(HttpStatus.NOT_FOUND)).`when`(workerServiceImpl).delete(workerId)
 
-        assertThrows<ResponseStatusException> { workerController.delete(workerId) }
+        assertThrows<ResponseStatusException> { workerController.deleteWorker(workerId) }
     }
 }

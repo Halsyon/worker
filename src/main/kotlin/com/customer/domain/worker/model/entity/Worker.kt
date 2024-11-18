@@ -24,32 +24,66 @@ import javax.validation.constraints.NotNull
  * main model
  * @author
  */
-@Entity(name = "worker")
+@Entity
 @Table(
     indexes = [
         Index(name = "idx_worker_name", columnList = "name")
-    ]
+    ], name = "worker", schema = "worker"
 )
 data class Worker(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "worker_id", nullable = false)
-     var id: Long? = null,
+    var id: Long? = null,
 
     @field:NotBlank(message = "Department is mandatory")
     @Column(name = "name", nullable = false)
-     var name: String? = null,
+    var name: String? = null,
 
     @field:NotNull(message = "age is mandatory")
     @Column(name = "age", nullable = false)
-     var age: Long? = null,
-
-//    @field:NotBlank(message = "Department is mandatory")
-//    @Column(name = "department", nullable = false)
-//    var department: String? = null,
+    var age: Int? = null,
 
     @ManyToOne()
     @JoinColumn(name = "department_id")
-     var department: Department
-) {}
+    var department: Department,
+
+    @Column(name = "address", nullable = false)
+    var address: String? = null,
+
+    @Column(name = "salary", nullable = false)
+    var salary: Double? = null
+) {
+
+    @Override
+    override fun toString(): String {
+        return this::class.simpleName + "(  id = $id   ,   name = $name   ,   age = $age   ,   department = $department   ,   address = $address   ,   salary = $salary )"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Worker
+
+        if (id != other.id) return false
+        if (name != other.name) return false
+        if (age != other.age) return false
+        if (department != other.department) return false
+        if (address != other.address) return false
+        if (salary != other.salary) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + (name?.hashCode() ?: 0)
+        result = 31 * result + (age ?: 0)
+        result = 31 * result + department.hashCode()
+        result = 31 * result + (address?.hashCode() ?: 0)
+        result = 31 * result + (salary?.hashCode() ?: 0)
+        return result
+    }
+}
