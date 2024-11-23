@@ -2,8 +2,7 @@ package com.customer.domain.department.controller
 
 import com.customer.domain.department.model.DepartmentRequest
 import com.customer.domain.department.model.DepartmentResponse
-import com.customer.domain.department.service.DepartmentServiceImpl
-import com.customer.domain.worker.model.view.WorkerResponse
+import com.customer.domain.department.service.impl.DepartmentServiceImpl
 import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController

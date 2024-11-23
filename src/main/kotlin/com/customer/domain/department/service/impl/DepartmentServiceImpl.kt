@@ -1,4 +1,4 @@
-package com.customer.domain.department.service
+package com.customer.domain.department.service.impl
 
 import com.customer.domain.department.event.DepartmentEventPublisher
 import com.customer.domain.department.mapper.DepartmentMapper
@@ -7,6 +7,7 @@ import com.customer.domain.department.model.Department
 import com.customer.domain.department.model.DepartmentRequest
 import com.customer.domain.department.model.DepartmentResponse
 import com.customer.domain.department.repository.DepartmentRepository
+import com.customer.domain.department.service.DepartmentService
 import org.modelmapper.ModelMapper
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl

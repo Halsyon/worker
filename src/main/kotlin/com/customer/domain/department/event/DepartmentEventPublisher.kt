@@ -1,6 +1,7 @@
 package com.customer.domain.department.event
 
 import com.customer.domain.department.model.DepartmentBusinessEvent
+import com.customer.domain.department.model.EventStatus
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
 
@@ -18,3 +19,8 @@ class DepartmentEventPublisher(
         publisher.publishEvent(event)
     }
 }
+
+fun main() {
+    val status = EventStatus.from(nameStatus = "Created", description = "When the event is created")
+    println(status) // EventStatus.CREATED
+ }
