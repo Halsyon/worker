@@ -85,8 +85,8 @@ interface EmployeeApi {
 
 
     @Operation(
-        operationId = "createWorker",
-        summary = "create new data for card worker from view",
+        operationId = "createEmployee",
+        summary = "create new data for card employee from view",
         tags = ["Employee-Api"],
         responses = [ApiResponse(
             responseCode = "200",
@@ -105,14 +105,14 @@ interface EmployeeApi {
     )
     fun createEmployee(
         @Parameter(
-            name = "WorkerView",
-            description = "View Worker model"
-        ) @RequestBody(required = true) @Valid worker: EmployeeRequest
+            name = "EmployeeView",
+            description = "View Employee request model"
+        ) @RequestBody(required = true) @Valid employeeRequest: EmployeeRequest
     ): EmployeeResponse
 
     @Operation(
-        operationId = "updateWorker",
-        summary = "update worker information",
+        operationId = "updateEmployee",
+        summary = "update employee information",
         tags = ["Employee-Api"],
         responses = [ApiResponse(
             responseCode = "200",
@@ -147,32 +147,32 @@ interface EmployeeApi {
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = ["/{workerId}"],
+        value = ["/{employeeId}"],
         produces = ["application/json"]
     )
     fun updateEmployee(
         @Parameter(
-            name = "workerId",
-            description = "ID of the worker",
+            name = "employeeId",
+            description = "ID of the Employee",
             required = true
-        ) @PathVariable("workerId") workerId: Long,
+        ) @PathVariable("employeeId") workerId: Long,
         @Parameter(
-            name = "WorkerResponse",
-            description = "Optional worker response model for updates",
+            name = "EmployeeResponse",
+            description = "Optional employee response model for updates",
             required = false
-        ) @RequestBody(required = true) @Valid  worker: EmployeeRequest
+        ) @RequestBody(required = true) @Valid  employeeRequest: EmployeeRequest
     ): EmployeeResponse?
 
     @Operation(
-        operationId = "deleteWorker",
-        summary = "delete worker information",
+        operationId = "deleteEmployee",
+        summary = "delete employee information",
         tags = ["Employee-Api"],
         responses = [ApiResponse(
-            responseCode = "200",
-            description = "OK",
+            responseCode = "204",
+            description = "No Content",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = EmployeeResponse::class)
+                schema = Schema(implementation = Unit::class)
             )]
         ), ApiResponse(
             responseCode = "403",
@@ -201,7 +201,7 @@ interface EmployeeApi {
     @RequestMapping(
         consumes = ["application/json"],
         method = [RequestMethod.DELETE],
-        value = ["/{workerId}"]
+        value = ["/{employeeId}"]
     )
-    fun deleteEmployee(@PathVariable("workerId") @Min(1) workerId: Long)
+    fun deleteEmployee(@PathVariable("employeeId") @Min(1) employeeId: Long)
 }

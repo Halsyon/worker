@@ -32,14 +32,14 @@ class EmployeeController(private val employeeServiceImpl: EmployeeServiceImpl) :
     override fun getEmployeeById(employeeId: Long): EmployeeResponse =
         employeeServiceImpl.findById(employeeId)
 
-    override fun createEmployee(worker: EmployeeRequest): EmployeeResponse =
-        employeeServiceImpl.save(worker)
+    override fun createEmployee(employeeRequest: EmployeeRequest): EmployeeResponse =
+        employeeServiceImpl.save(employeeRequest)
 
-    override fun updateEmployee(workerId: Long, worker: EmployeeRequest): EmployeeResponse? {
-        return employeeServiceImpl.update(workerId, worker)
+    override fun updateEmployee(workerId: Long, employeeRequest: EmployeeRequest): EmployeeResponse? {
+        return employeeServiceImpl.update(workerId, employeeRequest)
     }
 
-    override fun deleteEmployee(workerId: Long) {
-        employeeServiceImpl.delete(workerId)
+    override fun deleteEmployee(employeeId: Long) {
+        employeeServiceImpl.delete(employeeId)
     }
 }

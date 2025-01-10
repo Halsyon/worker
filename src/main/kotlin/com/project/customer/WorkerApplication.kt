@@ -18,9 +18,8 @@ package com.project.customer
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-//@ComponentScan(basePackages = ["com.customer.domain.department.mapper", "com.customer"])
 @SpringBootApplication
-class WorkerApplication{
+class WorkerApplication {
 
 }
 
