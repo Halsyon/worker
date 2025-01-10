@@ -18,34 +18,28 @@ package com.project.customer.api.controller
 import com.project.customer.api.contract.EmployeeApi
 import com.project.customer.api.dto.employee.EmployeeRequest
 import com.project.customer.api.dto.employee.EmployeeResponse
-import com.project.customer.service.impl.WorkerServiceImpl
+import com.project.customer.service.impl.EmployeeServiceImpl
 import org.springframework.data.domain.Page
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RestController
 
-/**
- * @description
- * @author Halsyon
- */
-@Validated
 @RestController
-class EmployeeController(private val workerServiceImpl: WorkerServiceImpl) : EmployeeApi {
+class EmployeeController(private val employeeServiceImpl: EmployeeServiceImpl) : EmployeeApi {
 
-    override fun getWorkersPage(page: Int, size: Int, sortField: String): Page<EmployeeResponse> {
-        return workerServiceImpl.findAll(page, size, sortField)
+    override fun getEmployeesPage(page: Int, size: Int, sortField: String): Page<EmployeeResponse> {
+        return employeeServiceImpl.findAll(page, size, sortField)
     }
 
-    override fun getWorkerById(employeeId: Long): EmployeeResponse =
-        workerServiceImpl.findById(employeeId)
+    override fun getEmployeeById(employeeId: Long): EmployeeResponse =
+        employeeServiceImpl.findById(employeeId)
 
-    override fun creteWorker(worker: EmployeeRequest): EmployeeResponse =
-        workerServiceImpl.save(worker)
+    override fun createEmployee(worker: EmployeeRequest): EmployeeResponse =
+        employeeServiceImpl.save(worker)
 
-    override fun updateWorker(workerId: Long, worker: EmployeeRequest): EmployeeResponse? {
-        return workerServiceImpl.update(workerId, worker)
+    override fun updateEmployee(workerId: Long, worker: EmployeeRequest): EmployeeResponse? {
+        return employeeServiceImpl.update(workerId, worker)
     }
 
-    override fun deleteWorker(workerId: Long) {
-        workerServiceImpl.delete(workerId)
+    override fun deleteEmployee(workerId: Long) {
+        employeeServiceImpl.delete(workerId)
     }
 }

@@ -12,13 +12,12 @@ class DepartmentController(
     private val departmentServiceImpl: DepartmentServiceImpl
 ) : DepartmentApi {
 
-
     override fun getAllDepartments(page: Int, size: Int, sortField: String): Page<DepartmentResponse> {
-        return departmentServiceImpl.getAll(page, size, sortField)
+        return departmentServiceImpl.findAll(page, size, sortField)
     }
 
     override fun getDepartmentById(departmentId: Long): DepartmentResponse {
-        return departmentServiceImpl.getById(departmentId)
+        return departmentServiceImpl.findById(departmentId)
     }
 
     override fun creteDepartment(department: DepartmentRequest): DepartmentResponse {
@@ -28,4 +27,5 @@ class DepartmentController(
     override fun updateDepartment(departmentId: Long, department: DepartmentRequest): DepartmentResponse {
         return departmentServiceImpl.update(departmentId, department)
     }
+
 }

@@ -17,9 +17,8 @@ package com.project.customer.repository
 
 import com.project.customer.domain.employee.Employee
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-/**
- *
- */
+@Repository
 interface WorkerRepository : JpaRepository<Employee, Long> {
 }

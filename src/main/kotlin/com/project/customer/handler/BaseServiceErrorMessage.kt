@@ -2,10 +2,7 @@ package com.project.customer.handler
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-/**
- *
- */
-class ServiceErrorMessage(
+class BaseServiceErrorMessage(
     @JsonProperty("code")
     private var code: String? = null,
     @JsonProperty("message")

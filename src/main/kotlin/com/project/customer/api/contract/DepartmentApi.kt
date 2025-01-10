@@ -2,7 +2,7 @@ package com.project.customer.api.contract
 
 import com.project.customer.api.dto.department.DepartmentRequest
 import com.project.customer.api.dto.department.DepartmentResponse
-import com.project.customer.handler.ServiceErrorMessage
+import com.project.customer.handler.BaseServiceErrorMessage
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Content
@@ -38,21 +38,21 @@ interface DepartmentApi {
             description = "FORBIDDEN",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         ), ApiResponse(responseCode = "404", description = "NOT_FOUND"), ApiResponse(
             responseCode = "422",
             description = "UNPROCESSABLE_ENTITY",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         ), ApiResponse(
             responseCode = "500",
             description = "INTERNAL_SERVER_ERROR",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
@@ -94,21 +94,21 @@ interface DepartmentApi {
             description = "FORBIDDEN",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         ), ApiResponse(responseCode = "404", description = "NOT_FOUND"), ApiResponse(
             responseCode = "422",
             description = "UNPROCESSABLE_ENTITY",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         ), ApiResponse(
             responseCode = "500",
             description = "INTERNAL_SERVER_ERROR",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
@@ -168,21 +168,21 @@ interface DepartmentApi {
             description = "FORBIDDEN",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         ), ApiResponse(responseCode = "404", description = "NOT_FOUND"), ApiResponse(
             responseCode = "422",
             description = "UNPROCESSABLE_ENTITY",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         ), ApiResponse(
             responseCode = "500",
             description = "INTERNAL_SERVER_ERROR",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
@@ -204,4 +204,53 @@ interface DepartmentApi {
             required = false
         ) @RequestBody(required = false) @Valid department: DepartmentRequest
     ): DepartmentResponse
+
+    @Operation(
+        operationId = "deleteDepartment",
+        summary = "delete worker information",
+        tags = ["Department-Api"],
+        responses = [ApiResponse(
+            responseCode = "204",
+            description = "No Content",
+            content = [Content(
+                mediaType = "application/json",
+                schema = Schema(implementation = Unit::class)
+            )]
+        ), ApiResponse(
+            responseCode = "403",
+            description = "FORBIDDEN",
+            content = [Content(
+                mediaType = "application/json",
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
+            )]
+        ), ApiResponse(responseCode = "404", description = "NOT_FOUND"), ApiResponse(
+            responseCode = "422",
+            description = "UNPROCESSABLE_ENTITY",
+            content = [Content(
+                mediaType = "application/json",
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
+            )]
+        ), ApiResponse(
+            responseCode = "500",
+            description = "INTERNAL_SERVER_ERROR",
+            content = [Content(
+                mediaType = "application/json",
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
+            )]
+        )],
+        security = [SecurityRequirement(name = "EpaAuth")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.DELETE],
+        value = ["/{departmentId}"],
+        produces = ["application/json"]
+    )
+    fun deleteDepartment(
+        @Parameter(
+            name = "departmentId",
+            description = "ID of the Department",
+            required = true
+        ) @PathVariable("departmentId") @Min(1) @Size(min = 1, max = 1000000) departmentId: Long
+    )
+
 }
