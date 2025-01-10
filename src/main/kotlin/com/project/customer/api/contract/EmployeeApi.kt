@@ -1,6 +1,6 @@
 package com.project.customer.api.contract
 
-import com.project.customer.handler.ServiceErrorMessage
+import com.project.customer.handler.BaseServiceErrorMessage
 import com.project.customer.api.dto.employee.EmployeeRequest
 import com.project.customer.api.dto.employee.EmployeeResponse
 import io.swagger.v3.oas.annotations.Operation
@@ -43,7 +43,7 @@ interface EmployeeApi {
         value = [],
         produces = ["application/json"]
     )
-    fun getWorkersPage(
+    fun getEmployeesPage(
         @Parameter(
             name = "page",
             description = "Page number (0-based)",
@@ -81,7 +81,7 @@ interface EmployeeApi {
         value = ["/{employeeId}"],
         produces = ["application/json"]
     )
-    fun getWorkerById(@PathVariable("employeeId") @Min(1) employeeId: Long): EmployeeResponse
+    fun getEmployeeById(@PathVariable("employeeId") @Min(1) employeeId: Long): EmployeeResponse
 
 
     @Operation(
@@ -103,7 +103,7 @@ interface EmployeeApi {
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun creteWorker(
+    fun createEmployee(
         @Parameter(
             name = "WorkerView",
             description = "View Worker model"
@@ -126,21 +126,21 @@ interface EmployeeApi {
             description = "FORBIDDEN",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         ), ApiResponse(responseCode = "404", description = "NOT_FOUND"), ApiResponse(
             responseCode = "422",
             description = "UNPROCESSABLE_ENTITY",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         ), ApiResponse(
             responseCode = "500",
             description = "INTERNAL_SERVER_ERROR",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
@@ -150,7 +150,7 @@ interface EmployeeApi {
         value = ["/{workerId}"],
         produces = ["application/json"]
     )
-    fun updateWorker(
+    fun updateEmployee(
         @Parameter(
             name = "workerId",
             description = "ID of the worker",
@@ -179,21 +179,21 @@ interface EmployeeApi {
             description = "FORBIDDEN",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         ), ApiResponse(responseCode = "404", description = "NOT_FOUND"), ApiResponse(
             responseCode = "422",
             description = "UNPROCESSABLE_ENTITY",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         ), ApiResponse(
             responseCode = "500",
             description = "INTERNAL_SERVER_ERROR",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(implementation = ServiceErrorMessage::class)
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
             )]
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
@@ -203,5 +203,5 @@ interface EmployeeApi {
         method = [RequestMethod.DELETE],
         value = ["/{workerId}"]
     )
-    fun deleteWorker(@PathVariable("workerId") @Min(1) workerId: Long)
+    fun deleteEmployee(@PathVariable("workerId") @Min(1) workerId: Long)
 }

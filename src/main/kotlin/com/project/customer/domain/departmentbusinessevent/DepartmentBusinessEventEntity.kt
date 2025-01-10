@@ -23,6 +23,7 @@ data class DepartmentBusinessEventEntity(
     @Column(name = "event_type", nullable = false)
     var eventType: String? = null,
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "event_status", nullable = false)
     var eventStatus: EventStatus? = null,
 

@@ -1,27 +1,40 @@
 package com.project.customer.service.impl
 
-import com.project.customer.domain.departmentbusinessevent.DepartmentBusinessEventEntity
+import com.project.customer.api.dto.departmentbusinessevent.DBERequest
+import com.project.customer.api.dto.departmentbusinessevent.DBEResponse
 import com.project.customer.repository.DepartmentBusinessEventEntityRepository
-import com.project.customer.service.DepartmentBusinessEventService
+import com.project.customer.service.BaseService
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 
 @Service
 class DepartmentBusinessEventServiceImpl(
     private val departmentBusinessEventRepository: DepartmentBusinessEventEntityRepository
-): DepartmentBusinessEventService {
-    override fun save(departmentBusinessEvent: DepartmentBusinessEventEntity) {
+) : BaseService<DBERequest, DBEResponse> {
+    val logger = org.slf4j.LoggerFactory.getLogger(DepartmentBusinessEventServiceImpl::class.java)
+
+    override fun findAll(page: Int, size: Int, sortField: String): Page<DBEResponse> {
         TODO("Not yet implemented")
     }
 
-    override fun getAll(page: Int, size: Int, sortField: String): List<DepartmentBusinessEventEntity> {
+    override fun findById(entityId: Long): DBEResponse {
         TODO("Not yet implemented")
     }
 
-    override fun delete(departmentBusinessEvent: DepartmentBusinessEventEntity) {
+    override fun delete(entityId: Long) {
         TODO("Not yet implemented")
     }
 
-    override fun getById(id: Long): DepartmentBusinessEventEntity {
+    override fun isExists(existsById: Long) {
         TODO("Not yet implemented")
     }
+
+    override fun update(entityId: Long, entityUpdated: DBERequest): DBEResponse {
+        TODO("Not yet implemented")
+    }
+
+    override fun save(entityCreate: DBERequest): DBEResponse {
+        TODO("Not yet implemented")
+    }
+
 }
