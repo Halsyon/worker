@@ -40,10 +40,6 @@ data class EmployeeResponse(
     @field:NotBlank(message = "Department is mandatory")
     var department: DepartmentResponse? = null,
 
-    @Schema(description = "Employee salary", example = "1000")
-    @field:NotNull(message = "salary is mandatory")
-    var salary: Double? = null,
-
     @Schema(description = "Employee address", example = "John Doe")
     @field:NotBlank(message = "Address is mandatory")
     var address: String? = null,
@@ -56,6 +52,10 @@ data class EmployeeResponse(
     @field:NotBlank(message = "Email is mandatory")
     var email: String? = null,
 
+    @Schema(description = "Employee salary", example = "1000")
+    @field:NotNull(message = "salary is mandatory")
+    var salary: Double? = null,
+
     @Schema(description = "Employee created At", example = "2023-01-01::00:00:00")
     var createdAt: Timestamp? = null,
 
@@ -65,7 +65,4 @@ data class EmployeeResponse(
     @Schema(description = "Employee periodAt", example = "2023-01-01::00:00:00")
     var periodAt: String? = null
 ) {
-    fun copy(id: Int): EmployeeResponse? {
-        TODO("Not yet implemented")
-    }
 }

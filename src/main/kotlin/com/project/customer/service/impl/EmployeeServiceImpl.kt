@@ -17,21 +17,20 @@ package com.project.customer.service.impl
 
 import com.project.customer.api.dto.employee.EmployeeRequest
 import com.project.customer.api.dto.employee.EmployeeResponse
-import com.project.customer.domain.employee.Employee
+import com.project.customer.mapper.EmployeeMapper
 import com.project.customer.repository.WorkerRepository
 import com.project.customer.service.BaseService
-import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
-import org.springframework.transaction.annotation.Transactional
+import org.springframework.stereotype.Service
 
-@Transactional
+@Service
 class EmployeeServiceImpl(
     val workerRepository: WorkerRepository,
-    val modelMapper: ModelMapper
+    val employeeMapper: EmployeeMapper
 ) : BaseService<EmployeeRequest, EmployeeResponse> {
 
     private val logger = LoggerFactory.getLogger(EmployeeServiceImpl::class.java)
@@ -41,7 +40,7 @@ class EmployeeServiceImpl(
         val pageable: Pageable = PageRequest.of(page, size, Sort.Direction.ASC, sortField)
 
         return workerRepository.findAll(pageable)
-            .map { modelMapper.map(it, EmployeeResponse::class.java) }
+            .map { employeeMapper.mapToDto(it) }
             .also { logger.info("Find all entities size: " + it.size) }
     }
 
@@ -49,17 +48,19 @@ class EmployeeServiceImpl(
         //checkAccess()
         entityCreate
             .let {
-                val result = workerRepository.save(modelMapper.map(entityCreate, Employee::class.java))
-                modelMapper.map(result, EmployeeResponse::class.java)
+                employeeMapper.mapToDto(
+                    workerRepository.save(employeeMapper.mapToEntity(entityCreate))
+                )
             }.also { logger.info("Save Entity with id ${entityCreate.name}") }
+
 
     override fun findById(entityId: Long): EmployeeResponse =
         //checkAccess()
         entityId
             .let {
-                val result = workerRepository.findById(entityId)
-                    .orElseThrow { RuntimeException("Worker with given id not found !") }
-                modelMapper.map(result, EmployeeResponse::class.java)
+                isExists(it)
+                val result = workerRepository.findById(entityId).get()
+                employeeMapper.mapToDto(result)
             }.also { logger.info("Get Entity with id $entityId") }
 
 
@@ -73,9 +74,10 @@ class EmployeeServiceImpl(
                 isExists(it)
 
                 entityUpdated.id = it
-                modelMapper.map(
-                    workerRepository.save(modelMapper.map(entityUpdated, Employee::class.java)),
-                    EmployeeResponse::class.java
+                employeeMapper.mapToDto(
+                    workerRepository.save(
+                        employeeMapper.mapToEntity(entityUpdated)
+                    )
                 )
             }.also { logger.info("Update Entity with id: ${entityUpdated.id} !") }
     }

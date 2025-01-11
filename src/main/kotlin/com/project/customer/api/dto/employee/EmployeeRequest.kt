@@ -11,44 +11,44 @@ import javax.validation.constraints.NotNull
 data class EmployeeRequest(
 
     @Schema(description = "Employee id", example = "1")
-    var id: Long? = null,
+    var id: Long?,
 
     @Schema(description = "Employee name", example = "John Doe")
     @field:NotNull(message = "name is mandatory")
-    var name: String? = null,
+    var name: String?,
 
     @Schema(description = "Employee age", example = "30")
     @field:NotNull(message = "age is mandatory")
-    var age: Int? = null,
+    var age: Int?,
 
     @Schema(description = "Employee DEPARTMENT ID", example = "John Doe")
     @field:NotBlank(message = "Department is mandatory")
-    var department: DepartmentRequest? = null,
-
-    @Schema(description = "Employee salary", example = "1000")
-    @field:NotNull(message = "salary is mandatory")
-    var salary: Double? = null,
+    var department: DepartmentRequest?,
 
     @Schema(description = "Employee address", example = "John Doe")
     @field:NotBlank(message = "Address is mandatory")
-    var address: String? = null,
+    var address: String?,
 
     @Schema(description = "Employee phone", example = "(555) 555-5555")
     @field:NotBlank(message = "Phone is mandatory")
-    var phone: String? = null,
+    var phone: String?,
 
     @Schema(description = "Employee email", example = "John Doe")
     @field:NotBlank(message = "Email is mandatory")
-    var email: String? = null,
+    var email: String?,
+
+    @Schema(description = "Employee salary", example = "1000")
+    @field:NotNull(message = "salary is mandatory")
+    var salary: Double?,
 
     @Schema(description = "Employee created At", example = "2023-01-01::00:00:00")
-    var createdAt: Timestamp? = null,
+    var createdAt: Timestamp?,
 
     @Schema(description = "Employee updatedAt", example = "2023-01-01::00:00:00")
-    var updatedAt: Timestamp? = null,
+    var updatedAt: Timestamp?,
 
     @Schema(description = "Employee periodAt", example = "2023-01-01::00:00:00")
-    var periodAt: String? = null
+    var periodAt: String?
 ) {
 
 }

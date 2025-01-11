@@ -30,38 +30,38 @@ data class Employee(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "worker_id", nullable = false)
-    var id: Long? = null,
+    var id: Long?,
 
     @Column(name = "name", nullable = false)
-    var name: String? = null,
+    var name: String?,
 
     @Column(name = "age", nullable = false)
-    var age: Int? = null,
+    var age: Int?,
 
     @ManyToOne
     @JoinColumn(name = "department_id")
     var department: Department,
 
     @Column(name = "address", nullable = false)
-    var address: String? = null,
+    var address: String?,
 
     @Column(name = "phone", nullable = false)
-    var phone: String? = null,
+    var phone: String?,
 
     @Column(name = "email", nullable = false, unique = true)
-    var email: String? = null,
+    var email: String?,
 
     @Column(name = "salary", nullable = false)
-    var salary: Double? = null,
+    var salary: Double?,
 
     @Column(name = "created_at", nullable = false)
-    var createdAt: Timestamp? = null,
+    var createdAt: Timestamp?,
 
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: Timestamp? = null,
+    var updatedAt: Timestamp?,
 
     @Column(name = "period_at", nullable = false)
-    var periodAt: String? = null
+    var periodAt: String?
 ) {
 
     @Override

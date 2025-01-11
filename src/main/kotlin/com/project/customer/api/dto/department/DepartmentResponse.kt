@@ -7,18 +7,18 @@ import io.swagger.v3.oas.annotations.tags.Tag
 data class DepartmentResponse(
 
     @Schema(description = "Department id", example = "1")
-    var id: Long? = null,
+    var id: Long?,
 
     @Schema(description = "Organization name", example = "Umbrella Corp")
-    var shortName: String? = null,
+    var shortName: String?,
 
     @Schema(description = "CEO name", example = "Given Nealson")
-    var ceo: String? = null,
+    var ceo: String?,
 
     @Schema(description = "Department address", example = "Sequeira de Abril, 123")
-    var address: String? = null
+    var address: String?
 ) {
-    override fun toString(): String {
-        return "DepartmentResponse(id=$id, shortName=$shortName, ceo=$ceo, address=$address)"
-    }
+//    override fun toString(): String {
+//        return "DepartmentResponse(id=$id, shortName=$shortName, ceo=$ceo, address=$address)"
+//    }
 }

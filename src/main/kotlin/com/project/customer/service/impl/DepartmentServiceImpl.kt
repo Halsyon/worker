@@ -39,7 +39,7 @@ class DepartmentServiceImpl(
                 mupStructMapper.toDto(
                     departmentRepository.save(
                         mupStructMapper.toBean(entityUpdated)
-                            .apply { this.setId(entityId) }
+                            .apply { this.id = (entityId) }
                     )
                 )
             }

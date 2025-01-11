@@ -8,31 +8,43 @@ data class Department(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id",nullable = false)
-    private var id: Long? = null,
+    @Column(name = "id", nullable = false)
+    var id: Long?,
 
     @Column(nullable = false)
-    private var shortName: String? = null,
+    var shortName: String?,
 
     @Column(nullable = false)
-    private var ceo: String? = null,
+    var ceo: String?,
 
     @Column(nullable = false)
-    private var address: String? = null
+    var address: String?
 ) {
 
-    val getId: Long? get() = this.id
-    // Кастомный геттер и сеттер для id
-    fun getId(): Long? = id
-    fun setId(newId: Long?) {
-        id = newId
-    }
-
-    // Кастомный геттер и сеттер для shortName
-    fun getShortName(): String? = shortName
-    fun setShortName(newShortName: String?) {
-        shortName = newShortName
-    }
+//    val getId: Long? get() = this.id
+//    // Кастомный геттер и сеттер для id
+//    fun getId(): Long? = id
+//    fun setId(newId: Long?) {
+//        id = newId
+//    }
+//
+//    // Кастомный геттер и сеттер для shortName
+//    fun getShortName(): String? = shortName
+//    fun setShortName(newShortName: String?) {
+//        shortName = newShortName
+//    }
+//
+//    // Кастомный геттер и сеттер для ceo
+//    fun getCeo(): String? = ceo
+//    fun setCeo(newCeo: String?) {
+//        ceo = newCeo
+//    }
+//
+//    // Кастомный геттер и сеттер для address
+//    fun getAddress(): String? = address
+//    fun setAddress(newAddress: String?) {
+//        address = newAddress
+//    }
 
     @Override
     override fun toString(): String {
