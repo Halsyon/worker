@@ -42,12 +42,15 @@ data class EmployeeRequest(
     var salary: Double?,
 
     @Schema(description = "Employee created At", example = "2023-01-01::00:00:00")
+    @field:NotBlank(message = "createdAt is mandatory")
     var createdAt: Timestamp?,
 
     @Schema(description = "Employee updatedAt", example = "2023-01-01::00:00:00")
+    @field:NotBlank(message = "updatedAt is mandatory")
     var updatedAt: Timestamp?,
 
     @Schema(description = "Дата окончания договора", example = "2023-01-01::00:00:00")
+    @field:NotBlank(message = "periodAt is mandatory")
     var periodAt: String?
 ) {
 

@@ -18,7 +18,7 @@ package com.project.customer
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication//(scanBasePackages = ["com.project.customer"])
+@SpringBootApplication
 class WorkerApplication {
 
 }

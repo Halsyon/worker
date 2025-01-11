@@ -26,11 +26,13 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
+import javax.persistence.EntityNotFoundException
 
 @Service
 class EmployeeServiceImpl(
-    val workerRepository: WorkerRepository,
-    val employeeMapper: EmployeeMapper
+    private val fallbackService: EmployeeFallbackServiceImpl,
+    private val workerRepository: WorkerRepository,
+    private val employeeMapper: EmployeeMapper
 ) : BaseService<EmployeeRequest, EmployeeResponse> {
 
     private val logger = LoggerFactory.getLogger(EmployeeServiceImpl::class.java)
@@ -54,44 +56,56 @@ class EmployeeServiceImpl(
             }.also { logger.info("Save Entity with id ${entityCreate.name}") }
 
 
-    override fun findById(entityId: Long): EmployeeResponse =
+    override fun findById(entityId: Long): EmployeeResponse {
         //checkAccess()
-        entityId
-            .let {
-                isExists(it)
-                val result = workerRepository.findById(entityId).get()
-                employeeMapper.mapToDto(result)
-            }.also { logger.info("Get Entity with id $entityId") }
-
-
-    override fun update(
-        entityId: Long,
-        entityUpdated: EmployeeRequest
-    ): EmployeeResponse {
-        //checkAccess()
-        return entityId
-            .let {
-                isExists(it)
-
-                entityUpdated.id = it
-                employeeMapper.mapToDto(
-                    workerRepository.save(
-                        employeeMapper.mapToEntity(entityUpdated)
-                    )
-                )
-            }.also { logger.info("Update Entity with id: ${entityUpdated.id} !") }
+        return runCatching {
+            // Основная логика получения данных
+            workerRepository.findById(entityId)
+                .orElseThrow { EntityNotFoundException("Entity with ID $entityId not found") }
+                .let { employeeMapper.mapToDto(it) }
+        }.getOrElse { exception ->
+            // Fallback в случае ошибки
+            logger.warn("Failed to fetch entity with id $entityId, falling back", exception)
+            fallbackService.ifFallback(entityId)
+        }.also { _ ->
+            logger.info("Fetched or fallback entity with id: $entityId")
+        }
     }
 
+
+    override fun update(entityId: Long, entityUpdated: EmployeeRequest): EmployeeResponse {
+        runCatching {
+            isExists(entityId)
+            // Убедимся, что переданное значение entityUpdated синхронизировано с entityId
+            val updatedEntity = entityUpdated.apply { id = entityId }
+            val savedEntity = workerRepository.save(employeeMapper.mapToEntity(updatedEntity))
+
+            employeeMapper.mapToDto(savedEntity)
+        }.onSuccess { updatedEntity ->
+            logger.info("Successfully updated entity with id: $entityId")
+            return updatedEntity
+        }.onFailure { exception ->
+            logger.error("Failed to update entity with id: $entityId", exception)
+            throw exception
+        }
+        throw IllegalStateException("Unreachable code reached in update method.")
+    }
+
+
     override fun delete(entityId: Long) {
-        //checkAccess()
-        isExists(entityId)
-            .let { workerRepository.deleteById(entityId) }
-            .also { logger.info("Delete Entity with id $entityId !") }
+        runCatching {
+            isExists(entityId)
+            workerRepository.deleteById(entityId)
+        }.onSuccess {
+            logger.info("Successfully deleted entity with id $entityId")
+        }.onFailure { exception ->
+            logger.error("Failed to delete entity with id $entityId", exception)
+            throw exception
+        }
     }
 
     override fun isExists(existsById: Long) {
-        return require(workerRepository.existsById(existsById)) { "Employee Id must be existing !, Wanted id: $existsById" }
-
+        require(workerRepository.existsById(existsById)) { "Employee Id must be existing !, Wanted id: $existsById" }
     }
 
     private fun checkAccess(token: String): Boolean {
