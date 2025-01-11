@@ -17,7 +17,7 @@ package com.project.customer.handler
 
 import java.time.LocalDateTime
 
-class ApiError(
+data class ApiError(
     var path: String,
     var message: String,
     var statusCode: Int,

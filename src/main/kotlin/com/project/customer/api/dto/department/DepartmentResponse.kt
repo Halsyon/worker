@@ -18,7 +18,7 @@ data class DepartmentResponse(
     @Schema(description = "Department address", example = "Sequeira de Abril, 123")
     var address: String?
 ) {
-//    override fun toString(): String {
-//        return "DepartmentResponse(id=$id, shortName=$shortName, ceo=$ceo, address=$address)"
-//    }
+    override fun toString(): String {
+        return "DepartmentResponse(id=$id, shortName=$shortName, ceo=$ceo, address=$address)"
+    }
 }
