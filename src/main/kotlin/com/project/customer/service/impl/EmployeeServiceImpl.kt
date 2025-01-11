@@ -90,7 +90,7 @@ class EmployeeServiceImpl(
     }
 
     override fun isExists(existsById: Long) {
-        return require(!workerRepository.existsById(existsById)) { "Employee Id must be existing !, Wanted id: $existsById" }
+        return require(workerRepository.existsById(existsById)) { "Employee Id must be existing !, Wanted id: $existsById" }
 
     }
 

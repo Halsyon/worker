@@ -8,9 +8,7 @@ import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class DepartmentController(
-    private val departmentServiceImpl: DepartmentServiceImpl
-) : DepartmentApi {
+class DepartmentController(private val departmentServiceImpl: DepartmentServiceImpl) : DepartmentApi {
 
     override fun getAllDepartments(page: Int, size: Int, sortField: String): Page<DepartmentResponse> {
         return departmentServiceImpl.findAll(page, size, sortField)

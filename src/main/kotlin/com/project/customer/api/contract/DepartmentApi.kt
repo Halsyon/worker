@@ -17,9 +17,9 @@ import javax.validation.Valid
 import javax.validation.constraints.Min
 import javax.validation.constraints.Size
 
-@Tag(name = "Department-Api", description = "the Department API")
+@RequestMapping("api/v1/department", produces = ["application/json"])
 @Validated
-@RequestMapping("api/v1/department")
+@Tag(name = "Department-Api", description = "the Department API")
 interface DepartmentApi {
 
     @Operation(
@@ -57,12 +57,7 @@ interface DepartmentApi {
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
     )
-    @RequestMapping(
-        method = [RequestMethod.GET],
-        value = [],
-        produces = ["application/json"],
-        consumes = ["application/json"]
-    )
+    @GetMapping(value = [], produces = ["application/json"])
     fun getAllDepartments(
         @Parameter(
             name = "page", description = "Page number (0-based)", example = "0"
@@ -80,51 +75,62 @@ interface DepartmentApi {
 
     @Operation(
         operationId = "getDepartment",
-        summary = "get all data for card department by ID",
+        summary = "Get data for department card by ID",
         tags = ["Department-Api"],
-        responses = [ApiResponse(
-            responseCode = "200",
-            description = "return id or request object after update",
-            content = [Content(
-                mediaType = "application/json",
-                schema = Schema(implementation = DepartmentResponse::class)
-            )]
-        ), ApiResponse(
-            responseCode = "403",
-            description = "FORBIDDEN",
-            content = [Content(
-                mediaType = "application/json",
-                schema = Schema(implementation = BaseServiceErrorMessage::class)
-            )]
-        ), ApiResponse(responseCode = "404", description = "NOT_FOUND"), ApiResponse(
-            responseCode = "422",
-            description = "UNPROCESSABLE_ENTITY",
-            content = [Content(
-                mediaType = "application/json",
-                schema = Schema(implementation = BaseServiceErrorMessage::class)
-            )]
-        ), ApiResponse(
-            responseCode = "500",
-            description = "INTERNAL_SERVER_ERROR",
-            content = [Content(
-                mediaType = "application/json",
-                schema = Schema(implementation = BaseServiceErrorMessage::class)
-            )]
-        )],
+        responses = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Returns department data by ID",
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = DepartmentResponse::class)
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "403",
+                description = "Forbidden",
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = BaseServiceErrorMessage::class)
+                    )
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Department not found"),
+            ApiResponse(
+                responseCode = "422",
+                description = "Unprocessable Entity",
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = BaseServiceErrorMessage::class)
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "500",
+                description = "Internal Server Error",
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = BaseServiceErrorMessage::class)
+                    )
+                ]
+            )
+        ],
         security = [SecurityRequirement(name = "EpaAuth")]
     )
-    @RequestMapping(
-        method = [RequestMethod.GET],
-        value = ["/{departmentId}"],
-        produces = ["application/json"],
-        consumes = ["application/json"]
-    )
+    @GetMapping("/{departmentId}", produces = ["application/json"])
     @Parameter(
         name = "departmentId",
-        description = "ID of the Department",
+        description = "ID of the department",
         required = true
     )
-    fun getDepartmentById(@Valid @PathVariable("departmentId") @Min(1) departmentId: Long): DepartmentResponse
+    fun getDepartmentById(
+        @Valid @PathVariable("departmentId") @Min(1) departmentId: Long
+    ): DepartmentResponse
 
     @Operation(
         operationId = "createDepartment",
@@ -139,12 +145,7 @@ interface DepartmentApi {
             )]
         )]
     )
-    @RequestMapping(
-        method = [RequestMethod.POST],
-        value = [],
-        produces = ["application/json"],
-        consumes = ["application/json"]
-    )
+    @PostMapping(value = [], produces = ["application/json"])
     fun creteDepartment(
         @Parameter(
             name = "DepartmentView",
@@ -187,22 +188,18 @@ interface DepartmentApi {
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
     )
-    @RequestMapping(
-        method = [RequestMethod.GET],
-        value = ["/{departmentId}"],
-        produces = ["application/json"]
-    )
+    @PutMapping(value = ["/{departmentId}"], produces = ["application/json"])
     fun updateDepartment(
         @Parameter(
             name = "departmentId",
             description = "ID of the Department",
             required = true
-        ) @PathVariable("departmentId") @Min(1) @Size(min = 1, max = 1000000) departmentId: Long,
+        ) @Valid @PathVariable("departmentId") @Min(1) departmentId: Long,
         @Parameter(
             name = "DepartmentResponse",
             description = "Optional Department response model for updates",
             required = false
-        ) @RequestBody(required = false) @Valid department: DepartmentRequest
+        ) @RequestBody(required = true) @Valid department: DepartmentRequest
     ): DepartmentResponse
 
     @Operation(
@@ -240,17 +237,13 @@ interface DepartmentApi {
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
     )
-    @RequestMapping(
-        method = [RequestMethod.DELETE],
-        value = ["/{departmentId}"],
-        produces = ["application/json"]
-    )
+    @DeleteMapping(value = ["/{departmentId}"], produces = ["application/json"])
     fun deleteDepartment(
         @Parameter(
             name = "departmentId",
             description = "ID of the Department",
             required = true
-        ) @PathVariable("departmentId") @Min(1) @Size(min = 1, max = 1000000) departmentId: Long
+        ) @Valid @PathVariable("departmentId") @Min(1) @Size(min = 1, max = 1000000) departmentId: Long
     )
 
 }

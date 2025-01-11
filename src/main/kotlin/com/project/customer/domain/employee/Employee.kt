@@ -23,13 +23,13 @@ import javax.persistence.*
 @Table(
     indexes = [
         Index(name = "idx_worker_name", columnList = "name")
-    ], name = "worker", schema = "worker"
+    ], name = "employee"
 )
 data class Employee(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "worker_id", nullable = false)
+    @Column(name = "employee_id", nullable = false)
     var id: Long?,
 
     @Column(name = "name", nullable = false)

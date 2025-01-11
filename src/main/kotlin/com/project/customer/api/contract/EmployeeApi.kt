@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 import javax.validation.constraints.Min
 
+@RequestMapping("api/v1/employee")
 @Validated
 @Tag(name = "Employee-Api", description = "The Employee API")
-@RequestMapping("api/v1/employee")
 interface EmployeeApi {
 
     @Operation(
@@ -38,24 +38,14 @@ interface EmployeeApi {
             )
         ]
     )
-    @RequestMapping(
-        method = [RequestMethod.GET],
-        value = [],
-        produces = ["application/json"]
-    )
+    @GetMapping(value = [], produces = ["application/json"])
     fun getEmployeesPage(
         @Parameter(
-            name = "page",
-            description = "Page number (0-based)",
-            example = "0"
+            name = "page", description = "Page number (0-based)", example = "0"
         ) @RequestParam(required = false, defaultValue = "0") page: Int,
-
         @Parameter(
-            name = "size",
-            description = "Number of items per page",
-            example = "10"
+            name = "size", description = "Number of items per page", example = "10"
         ) @RequestParam(required = false, defaultValue = "10") size: Int,
-
         @Parameter(
             name = "sort",
             description = "Sorting criteria in the format: property(,asc|desc). Default is ascending.",
@@ -76,13 +66,8 @@ interface EmployeeApi {
             )]
         )]
     )
-    @RequestMapping(
-        method = [RequestMethod.GET],
-        value = ["/{employeeId}"],
-        produces = ["application/json"]
-    )
+    @GetMapping(value = ["/{employeeId}"], produces = ["application/json"])
     fun getEmployeeById(@PathVariable("employeeId") @Min(1) employeeId: Long): EmployeeResponse
-
 
     @Operation(
         operationId = "createEmployee",
@@ -97,16 +82,12 @@ interface EmployeeApi {
             )]
         )]
     )
-    @RequestMapping(
-        method = [RequestMethod.POST],
-        value = [],
-        produces = ["application/json"],
-        consumes = ["application/json"]
-    )
+    @PostMapping(value = [], produces = ["application/json"])
     fun createEmployee(
         @Parameter(
             name = "EmployeeView",
-            description = "View Employee request model"
+            description = "View Employee request model",
+            required = true
         ) @RequestBody(required = true) @Valid employeeRequest: EmployeeRequest
     ): EmployeeResponse
 
@@ -145,11 +126,7 @@ interface EmployeeApi {
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
     )
-    @RequestMapping(
-        method = [RequestMethod.PUT],
-        value = ["/{employeeId}"],
-        produces = ["application/json"]
-    )
+    @PutMapping(value = ["/{employeeId}"], produces = ["application/json"])
     fun updateEmployee(
         @Parameter(
             name = "employeeId",
@@ -159,8 +136,8 @@ interface EmployeeApi {
         @Parameter(
             name = "EmployeeResponse",
             description = "Optional employee response model for updates",
-            required = false
-        ) @RequestBody(required = true) @Valid  employeeRequest: EmployeeRequest
+            required = true
+        ) @RequestBody(required = true) @Valid employeeRequest: EmployeeRequest
     ): EmployeeResponse?
 
     @Operation(
@@ -198,10 +175,6 @@ interface EmployeeApi {
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
     )
-    @RequestMapping(
-        consumes = ["application/json"],
-        method = [RequestMethod.DELETE],
-        value = ["/{employeeId}"]
-    )
+    @DeleteMapping(value = ["/{employeeId}"], produces = ["application/json"]   )
     fun deleteEmployee(@PathVariable("employeeId") @Min(1) employeeId: Long)
 }

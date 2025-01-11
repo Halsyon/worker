@@ -73,7 +73,7 @@ class DepartmentServiceImpl(
     }
 
     override fun isExists(existsById: Long) {
-        require(!departmentRepository.existsById(existsById)) { "Department Id must be existing !" }
+        require(departmentRepository.existsById(existsById)) { "Department Id must be existing !" }
     }
 
     private fun toPage(departments: List<Department>): Page<DepartmentResponse> {

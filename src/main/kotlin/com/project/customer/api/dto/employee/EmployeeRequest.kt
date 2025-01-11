@@ -47,7 +47,7 @@ data class EmployeeRequest(
     @Schema(description = "Employee updatedAt", example = "2023-01-01::00:00:00")
     var updatedAt: Timestamp?,
 
-    @Schema(description = "Employee periodAt", example = "2023-01-01::00:00:00")
+    @Schema(description = "Дата окончания договора", example = "2023-01-01::00:00:00")
     var periodAt: String?
 ) {
 

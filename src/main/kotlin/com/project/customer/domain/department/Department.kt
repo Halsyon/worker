@@ -3,7 +3,7 @@ package com.project.customer.domain.department
 import javax.persistence.*
 
 @Entity
-@Table(name = "department", schema = "worker")
+@Table(name = "department")
 data class Department(
 
     @Id
