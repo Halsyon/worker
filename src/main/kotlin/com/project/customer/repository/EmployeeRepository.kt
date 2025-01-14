@@ -36,7 +36,7 @@ interface EmployeeRepository : JpaRepository<Employee, Long> {
     )
     fun findByFullName(
         @Param("firstName") firstName: String?,
-        @Param("lastName") lastName: String?,
-        @Param("middleName") middleName: String?
+        @Param("middleName") middleName: String?,
+        @Param("lastName") lastName: String?
     ): List<Employee>
 }

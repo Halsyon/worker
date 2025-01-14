@@ -114,8 +114,8 @@ interface EmployeeApi {
     @GetMapping("/employees")
     fun findEmployee(
         @RequestParam(required = false) firstName: String?,
-        @RequestParam(required = false) lastName: String?,
-        @RequestParam(required = false) middleName: String?
+        @RequestParam(required = false) middleName: String?,
+        @RequestParam(required = false) lastName: String?
     ): List<EmployeeResponse>
 
     @Operation(

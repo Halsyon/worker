@@ -16,7 +16,10 @@ class EmployeeFallbackServiceImpl : FallbackService<Long, EmployeeResponse> {
         // Пример возврата дефолтного объекта
         return EmployeeResponse(
             id = t,
-            name = "Fallback Employee",
+            firstName = "Fallback Employee",
+            middleName = null,
+            lastName = "Fallback Employee",
+            age = 0,
             department = DepartmentResponse(
                 shortName = "Unknown Corporation",
                 ceo = "Unknown CEO",

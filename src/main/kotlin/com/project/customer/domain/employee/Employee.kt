@@ -22,7 +22,7 @@ import javax.persistence.*
 @Entity
 @Table(
     indexes = [
-        Index(name = "idx_worker_name", columnList = "name")
+        Index(name = "idx_worker_name", columnList = "last_name, first_name")
     ], name = "employee"
 )
 data class Employee(
@@ -32,8 +32,14 @@ data class Employee(
     @Column(name = "employee_id", nullable = false)
     var id: Long?,
 
-    @Column(name = "name", nullable = false)
-    var name: String?,
+    @Column(name = "first_name", nullable = false)
+    var firstName: String?,
+
+    @Column(name = "middle_name", nullable = false)
+    var middleName: String?,
+
+    @Column(name = "last_name", nullable = false)
+    var lastName: String?,
 
     @Column(name = "age", nullable = false)
     var age: Int?,
@@ -66,7 +72,7 @@ data class Employee(
 
     @Override
     override fun toString(): String {
-        return this::class.simpleName + "(  id = $id   ,   name = $name   ,   age = $age   ,   department = $department   ,   address = $address   ,   salary = $salary )"
+        return this::class.simpleName + "(  id = $id   ,   name = $lastName   ,   age = $age   ,   department = $department   ,   address = $address   ,   salary = $salary )"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -76,7 +82,9 @@ data class Employee(
         other as Employee
 
         if (id != other.id) return false
-        if (name != other.name) return false
+        if (firstName != other.firstName) return false
+        if (middleName != other.middleName) return false
+        if (lastName != other.lastName) return false
         if (age != other.age) return false
         if (department != other.department) return false
         if (address != other.address) return false
@@ -87,7 +95,9 @@ data class Employee(
 
     override fun hashCode(): Int {
         var result = id?.hashCode() ?: 0
-        result = 31 * result + (name?.hashCode() ?: 0)
+        result = 31 * result + (firstName?.hashCode() ?: 0)
+        result = 31 * result + (middleName?.hashCode() ?: 0)
+        result = 31 * result + (lastName?.hashCode() ?: 0)
         result = 31 * result + (age ?: 0)
         result = 31 * result + department.hashCode()
         result = 31 * result + (address?.hashCode() ?: 0)

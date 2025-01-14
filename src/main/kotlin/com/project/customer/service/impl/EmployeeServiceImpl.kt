@@ -53,7 +53,7 @@ class EmployeeServiceImpl(
                 employeeMapper.mapToDto(
                     employeeRepository.save(employeeMapper.mapToEntity(entityCreate))
                 )
-            }.also { logger.info("Save Entity with id ${entityCreate.name}") }
+            }.also { logger.info("Save Entity with id ${entityCreate.id}") }
 
     override fun findById(entityId: Long): EmployeeResponse {
         //checkAccess()
@@ -101,9 +101,9 @@ class EmployeeServiceImpl(
         }
     }
 
-    fun findByFullName(firstName: String?, lastName: String?, middleName: String?): List<EmployeeResponse> {
+    fun findByFullName(firstName: String?, middleName: String?, lastName: String?): List<EmployeeResponse> {
         runCatching {
-            employeeRepository.findByFullName(firstName, lastName, middleName)
+            employeeRepository.findByFullName(firstName, middleName, lastName, )
                 .toList().map { employeeMapper.mapToDto(it) }
         }
             .onSuccess { logger.info("Successfully found entity with first name $lastName") }

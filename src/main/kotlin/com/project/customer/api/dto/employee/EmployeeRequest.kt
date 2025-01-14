@@ -13,9 +13,17 @@ data class EmployeeRequest(
     @Schema(description = "Employee id", example = "1")
     var id: Long?,
 
-    @Schema(description = "Employee name", example = "John Doe")
-    @field:NotNull(message = "name is mandatory")
-    var name: String?,
+    @Schema(description = "Employee name", example = "John")
+    @field:NotNull(message = "firstName is mandatory")
+    var firstName: String?,
+
+    @Schema(description = "Employee name", example = "Doe")
+    @field:NotNull(message = "middleName is mandatory")
+    var middleName: String?,
+
+    @Schema(description = "Employee name", example = "Smith")
+    @field:NotNull(message = "lastName is mandatory")
+    var lastName: String?,
 
     @Schema(description = "Employee age", example = "30")
     @field:NotNull(message = "age is mandatory")

@@ -33,8 +33,8 @@ class EmployeeController(private val employeeServiceImpl: EmployeeServiceImpl) :
         return employeeServiceImpl.findById(employeeId)
     }
 
-    override fun findEmployee(firstName: String?, lastName: String?, middleName: String?): List<EmployeeResponse> {
-        return employeeServiceImpl.findByFullName(firstName, lastName, middleName)
+    override fun findEmployee(firstName: String?,  middleName: String?, lastName: String?): List<EmployeeResponse> {
+        return employeeServiceImpl.findByFullName(firstName, middleName, lastName)
     }
 
     override fun createEmployee(employeeRequest: EmployeeRequest): EmployeeResponse =
