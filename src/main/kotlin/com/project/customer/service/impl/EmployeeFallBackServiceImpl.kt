@@ -11,11 +11,11 @@ import java.sql.Timestamp
 class EmployeeFallbackServiceImpl : FallbackService<Long, EmployeeResponse> {
 
     private val logger = LoggerFactory.getLogger(EmployeeFallbackServiceImpl::class.java)
-    override fun ifFallback(entityId: Long): EmployeeResponse {
-        logger.warn("Using fallback for entity with id: $entityId")
+    override fun ifFallback(t: Long): EmployeeResponse {
+        logger.warn("Using fallback for entity with id: $t")
         // Пример возврата дефолтного объекта
         return EmployeeResponse(
-            id = entityId,
+            id = t,
             name = "Fallback Employee",
             department = DepartmentResponse(
                 shortName = "Unknown Corporation",

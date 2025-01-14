@@ -17,8 +17,26 @@ package com.project.customer.repository
 
 import com.project.customer.domain.employee.Employee
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-interface WorkerRepository : JpaRepository<Employee, Long> {
+interface EmployeeRepository : JpaRepository<Employee, Long> {
+
+    @Query(
+        value = """
+            SELECT * 
+            FROM employee 
+            WHERE (:firstName IS NULL OR first_name = :firstName)
+              AND (:lastName IS NULL OR last_name = :lastName)
+              AND (:middleName IS NULL OR middle_name = :middleName)
+        """,
+        nativeQuery = true
+    )
+    fun findByFullName(
+        @Param("firstName") firstName: String?,
+        @Param("lastName") lastName: String?,
+        @Param("middleName") middleName: String?
+    ): List<Employee>
 }

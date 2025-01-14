@@ -54,8 +54,8 @@ interface EmployeeApi {
     ): Page<EmployeeResponse>
 
     @Operation(
-        operationId = "getWorker",
-        summary = "Get worker data by ID",
+        operationId = "getEmployee",
+        summary = "Get Employee data by ID",
         tags = ["Employee-Api"],
         responses = [ApiResponse(
             responseCode = "200",
@@ -70,17 +70,89 @@ interface EmployeeApi {
     fun getEmployeeById(@PathVariable("employeeId") @Min(1) employeeId: Long): EmployeeResponse
 
     @Operation(
-        operationId = "createEmployee",
-        summary = "create new data for card employee from view",
+        operationId = "getEmployeeBy FullName",
+        summary = "Get Employee data by full name",
         tags = ["Employee-Api"],
         responses = [ApiResponse(
             responseCode = "200",
-            description = "return id or request object after update",
+            description = "Return Employee object",
             content = [Content(
                 mediaType = "application/json",
                 schema = Schema(implementation = EmployeeResponse::class)
             )]
-        )]
+        ), ApiResponse(
+            responseCode = "403",
+            description = "FORBIDDEN",
+            content = [Content(
+                mediaType = "application/json",
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
+            )]
+        ), ApiResponse(
+            responseCode = "404",
+            description = "NOT_FOUND",
+            content = [Content(
+                mediaType = "application/json",
+                schema = Schema(implementation = BaseServiceErrorMessage::class)
+            )]
+        ),
+            ApiResponse(
+                responseCode = "422",
+                description = "UNPROCESSABLE_ENTITY",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = BaseServiceErrorMessage::class)
+                )]
+            ), ApiResponse(
+                responseCode = "500",
+                description = "INTERNAL_SERVER_ERROR",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = BaseServiceErrorMessage::class)
+                )]
+            )]
+    )
+    @GetMapping("/employees")
+    fun findEmployee(
+        @RequestParam(required = false) firstName: String?,
+        @RequestParam(required = false) lastName: String?,
+        @RequestParam(required = false) middleName: String?
+    ): List<EmployeeResponse>
+
+    @Operation(
+        operationId = "createEmployee",
+        summary = "Create new Entity by from view",
+        tags = ["Employee-Api"],
+        responses = [ApiResponse(
+            responseCode = "201",
+            description = "Return response object after create new object",
+            content = [Content(
+                mediaType = "application/json",
+                schema = Schema(implementation = EmployeeResponse::class)
+            )]
+        ),
+            ApiResponse(
+                responseCode = "403",
+                description = "FORBIDDEN",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = BaseServiceErrorMessage::class)
+                )]
+            ), ApiResponse(responseCode = "404", description = "NOT_FOUND"), ApiResponse(
+                responseCode = "422",
+                description = "UNPROCESSABLE_ENTITY",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = BaseServiceErrorMessage::class)
+                )]
+            ), ApiResponse(
+                responseCode = "500",
+                description = "INTERNAL_SERVER_ERROR",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = BaseServiceErrorMessage::class)
+                )]
+            )],
+        security = [SecurityRequirement(name = "EpaAuth")]
     )
     @PostMapping(value = [], produces = ["application/json"])
     fun createEmployee(
@@ -175,6 +247,6 @@ interface EmployeeApi {
         )],
         security = [SecurityRequirement(name = "EpaAuth")]
     )
-    @DeleteMapping(value = ["/{employeeId}"], produces = ["application/json"]   )
+    @DeleteMapping(value = ["/{employeeId}"], produces = ["application/json"])
     fun deleteEmployee(@PathVariable("employeeId") @Min(1) employeeId: Long)
 }

@@ -18,7 +18,7 @@ package com.project.customer.service.impl
 import com.project.customer.api.dto.employee.EmployeeRequest
 import com.project.customer.api.dto.employee.EmployeeResponse
 import com.project.customer.mapper.EmployeeMapper
-import com.project.customer.repository.WorkerRepository
+import com.project.customer.repository.EmployeeRepository
 import com.project.customer.service.BaseService
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
@@ -31,7 +31,7 @@ import javax.persistence.EntityNotFoundException
 @Service
 class EmployeeServiceImpl(
     private val fallbackService: EmployeeFallbackServiceImpl,
-    private val workerRepository: WorkerRepository,
+    private val employeeRepository: EmployeeRepository,
     private val employeeMapper: EmployeeMapper
 ) : BaseService<EmployeeRequest, EmployeeResponse> {
 
@@ -41,7 +41,7 @@ class EmployeeServiceImpl(
         //checkAccess()
         val pageable: Pageable = PageRequest.of(page, size, Sort.Direction.ASC, sortField)
 
-        return workerRepository.findAll(pageable)
+        return employeeRepository.findAll(pageable)
             .map { employeeMapper.mapToDto(it) }
             .also { logger.info("Find all entities size: " + it.size) }
     }
@@ -51,16 +51,15 @@ class EmployeeServiceImpl(
         entityCreate
             .let {
                 employeeMapper.mapToDto(
-                    workerRepository.save(employeeMapper.mapToEntity(entityCreate))
+                    employeeRepository.save(employeeMapper.mapToEntity(entityCreate))
                 )
             }.also { logger.info("Save Entity with id ${entityCreate.name}") }
-
 
     override fun findById(entityId: Long): EmployeeResponse {
         //checkAccess()
         return runCatching {
             // Основная логика получения данных
-            workerRepository.findById(entityId)
+            employeeRepository.findById(entityId)
                 .orElseThrow { EntityNotFoundException("Entity with ID $entityId not found") }
                 .let { employeeMapper.mapToDto(it) }
         }.getOrElse { exception ->
@@ -72,13 +71,12 @@ class EmployeeServiceImpl(
         }
     }
 
-
     override fun update(entityId: Long, entityUpdated: EmployeeRequest): EmployeeResponse {
         runCatching {
             isExists(entityId)
             // Убедимся, что переданное значение entityUpdated синхронизировано с entityId
             val updatedEntity = entityUpdated.apply { id = entityId }
-            val savedEntity = workerRepository.save(employeeMapper.mapToEntity(updatedEntity))
+            val savedEntity = employeeRepository.save(employeeMapper.mapToEntity(updatedEntity))
 
             employeeMapper.mapToDto(savedEntity)
         }.onSuccess { updatedEntity ->
@@ -91,11 +89,10 @@ class EmployeeServiceImpl(
         throw IllegalStateException("Unreachable code reached in update method.")
     }
 
-
     override fun delete(entityId: Long) {
         runCatching {
             isExists(entityId)
-            workerRepository.deleteById(entityId)
+            employeeRepository.deleteById(entityId)
         }.onSuccess {
             logger.info("Successfully deleted entity with id $entityId")
         }.onFailure { exception ->
@@ -104,8 +101,19 @@ class EmployeeServiceImpl(
         }
     }
 
+    fun findByFullName(firstName: String?, lastName: String?, middleName: String?): List<EmployeeResponse> {
+        runCatching {
+            employeeRepository.findByFullName(firstName, lastName, middleName)
+                .toList().map { employeeMapper.mapToDto(it) }
+        }
+            .onSuccess { logger.info("Successfully found entity with first name $lastName") }
+            .onFailure { logger.info("Failed to find entity with last name $lastName") }
+        throw IllegalStateException("Unreachable code reached in update method.")
+    }
+
+
     override fun isExists(existsById: Long) {
-        require(workerRepository.existsById(existsById)) { "Employee Id must be existing !, Wanted id: $existsById" }
+        require(employeeRepository.existsById(existsById)) { "Employee Id must be existing !, Wanted id: $existsById" }
     }
 
     private fun checkAccess(token: String): Boolean {

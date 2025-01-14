@@ -29,8 +29,13 @@ class EmployeeController(private val employeeServiceImpl: EmployeeServiceImpl) :
         return employeeServiceImpl.findAll(page, size, sortField)
     }
 
-    override fun getEmployeeById(employeeId: Long): EmployeeResponse =
-        employeeServiceImpl.findById(employeeId)
+    override fun getEmployeeById(employeeId: Long): EmployeeResponse {
+        return employeeServiceImpl.findById(employeeId)
+    }
+
+    override fun findEmployee(firstName: String?, lastName: String?, middleName: String?): List<EmployeeResponse> {
+        return employeeServiceImpl.findByFullName(firstName, lastName, middleName)
+    }
 
     override fun createEmployee(employeeRequest: EmployeeRequest): EmployeeResponse =
         employeeServiceImpl.save(employeeRequest)

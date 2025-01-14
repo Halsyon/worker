@@ -134,11 +134,11 @@ interface DepartmentApi {
 
     @Operation(
         operationId = "createDepartment",
-        summary = "create new data for card department from view",
+        summary = "Create new Entity by from view",
         tags = ["Department-Api"],
         responses = [ApiResponse(
-            responseCode = "200",
-            description = "return id or request object after update",
+            responseCode = "201",
+            description = "Return response object after create new object",
             content = [Content(
                 mediaType = "application/json",
                 schema = Schema(implementation = DepartmentResponse::class)
